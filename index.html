@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>A Little Something for You</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=DM+Sans:wght@400;500&display=swap"
+    />
+    <style>
+      :root {
+        --bg: #07080c;
+        --panel: #10121a;
+        --line: #292c3b;
+        --fg: #eceef5;
+        --mute: #a0a5b8;
+        --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+        --body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      *::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font: 400 15px/1.5 var(--body);
+        padding: 0;
+      }
+      .wrap {
+        width: 100%;
+        margin: 0;
+      }
+      .pond-hero {
+        position: relative;
+        height: 100vh;
+        height: 100svh;
+        min-height: 620px;
+        margin: 0;
+        overflow: hidden;
+        background: #050a1e;
+      }
+      .pond-embed {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        background: #050a1e;
+      }
+      .stage {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        background: rgba(5, 6, 9, 0.94);
+        -webkit-backdrop-filter: blur(18px);
+        backdrop-filter: blur(18px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        padding: max(22px, env(safe-area-inset-top)) 16px
+          max(22px, env(safe-area-inset-bottom));
+        overflow-y: auto;
+      }
+      .stage[hidden] {
+        display: none;
+      }
+      .stage.is-opening {
+        animation: stage-enter 700ms ease-out both;
+      }
+      .stage.is-opening .glow {
+        animation: glow-bloom 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      .stage.is-opening .fig {
+        animation: figure-enter 1.15s cubic-bezier(0.16, 1, 0.3, 1) 100ms both;
+      }
+      .stage.is-opening .info {
+        animation: content-enter 650ms ease-out 420ms both;
+      }
+      .stage.is-opening .ctl {
+        animation: content-enter 600ms ease-out 580ms both;
+      }
+      .stage.is-opening .close {
+        animation: close-enter 600ms cubic-bezier(0.16, 1, 0.3, 1) 240ms both;
+      }
+      .stage.is-opening .fig::after {
+        animation: portrait-sheen 1.35s ease-out 250ms both;
+      }
+      .stage.is-opening .sparkle {
+        animation: sparkle-rise 1.1s ease-out var(--sparkle-delay) both;
+      }
+      .fig::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(
+          112deg,
+          transparent 35%,
+          rgba(255, 255, 255, 0.22) 50%,
+          transparent 65%
+        );
+        opacity: 0;
+        transform: translateX(-140%) skewX(-12deg);
+        pointer-events: none;
+      }
+      @keyframes stage-enter {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes glow-bloom {
+        from {
+          opacity: 0;
+          transform: scale(0.76);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1.04);
+        }
+      }
+      @keyframes figure-enter {
+        from {
+          opacity: 0;
+          transform: translateY(28px) scale(0.92);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      @keyframes content-enter {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes close-enter {
+        from {
+          opacity: 0;
+          transform: scale(0.72) rotate(-18deg);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) rotate(0);
+        }
+      }
+      @keyframes portrait-sheen {
+        0% {
+          opacity: 0;
+          transform: translateX(-140%) skewX(-12deg);
+        }
+        20% {
+          opacity: 0.8;
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(140%) skewX(-12deg);
+        }
+      }
+      @keyframes sparkle-rise {
+        0% {
+          opacity: 0;
+          transform: translateY(10px) scale(0.3) rotate(0);
+        }
+        35% {
+          opacity: 0.95;
+          transform: translateY(0) scale(1.1) rotate(45deg);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-18px) scale(0.45) rotate(90deg);
+        }
+      }
+      .stage .glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 60% 50% at 50% 38%,
+          color-mix(in srgb, var(--tc) 22%, transparent),
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .close {
+        position: absolute;
+        top: max(14px, env(safe-area-inset-top));
+        right: max(14px, env(safe-area-inset-right));
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--fg);
+        font-size: 20px;
+        cursor: pointer;
+        z-index: 2;
+      }
+      .fig {
+        position: relative;
+        height: min(52vh, 540px);
+        aspect-ratio: 800/936;
+        max-width: 100%;
+      }
+      .sparkle {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        color: var(--tc);
+        filter: drop-shadow(0 0 6px currentColor);
+        opacity: 0;
+        pointer-events: none;
+      }
+      .sparkles {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .sparkle::before,
+      .sparkle::after {
+        content: "";
+        position: absolute;
+        display: block;
+        border-radius: 2px;
+        background: currentColor;
+      }
+      .sparkle::before {
+        left: 5px;
+        width: 2px;
+        height: 12px;
+      }
+      .sparkle::after {
+        top: 5px;
+        width: 12px;
+        height: 2px;
+      }
+      .sparkle:nth-child(1) {
+        top: 22%;
+        left: 10%;
+        --sparkle-delay: 220ms;
+      }
+      .sparkle:nth-child(2) {
+        top: 38%;
+        right: 9%;
+        --sparkle-delay: 410ms;
+      }
+      .sparkle:nth-child(3) {
+        bottom: 25%;
+        left: 17%;
+        --sparkle-delay: 600ms;
+      }
+      .sparkle:nth-child(4) {
+        right: 16%;
+        bottom: 18%;
+        --sparkle-delay: 790ms;
+      }
+      @property --e {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+      }
+      .fig img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .fig img[hidden] {
+        display: none;
+      }
+      .fig .fill {
+        --e: 0%;
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          #000 0,
+          #000 calc(var(--e) - 14%),
+          transparent var(--e)
+        );
+        mask-image: linear-gradient(
+          to bottom,
+          #000 0,
+          #000 calc(var(--e) - 14%),
+          transparent var(--e)
+        );
+      }
+      .fig .lines {
+        opacity: 0.85;
+      }
+      .fig.is-revealing .fill {
+        animation: fill-reveal 6.4s cubic-bezier(0.42, 0, 0.58, 1) 5s both;
+      }
+      @keyframes fill-reveal {
+        to {
+          --e: 114%;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .fig.is-revealing .fill {
+          --e: 114%;
+          animation: none;
+        }
+      }
+      .info {
+        position: relative;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        max-width: min(560px, 100%);
+      }
+      .info h2 {
+        font: italic 600 clamp(28px, 6vw, 40px)/1.1 var(--display);
+        margin: 0;
+      }
+      .info p {
+        margin: 0;
+        color: var(--mute);
+      }
+      .info .note {
+        font-size: 13px;
+        margin-top: 4px;
+      }
+      .ctl {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: min(560px, 100%);
+      }
+      .ctl button {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--fg);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        flex: none;
+      }
+      .ctl button:hover {
+        border-color: var(--tc);
+      }
+      .ctl button:focus-visible,
+      .close:focus-visible {
+        outline: 2px solid var(--fg);
+        outline-offset: 2px;
+      }
+      .ctl button.main {
+        width: 56px;
+        height: 56px;
+        background: var(--fg);
+        color: #07080c;
+        border: 0;
+      }
+      .ctl svg {
+        width: 16px;
+        height: 16px;
+        fill: currentColor;
+      }
+      .seek {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+        min-width: 0;
+        font-size: 12px;
+        color: var(--mute);
+        font-variant-numeric: tabular-nums;
+      }
+      input[type="range"] {
+        flex: 1;
+        min-width: 0;
+        accent-color: var(--tc);
+        height: 24px;
+        background: transparent;
+      }
+      @media (max-width: 600px) {
+        body {
+          padding: 0;
+        }
+        .pond-hero {
+          height: 100vh;
+          height: 100svh;
+          min-height: 620px;
+          margin: 0;
+        }
+        .stage {
+          gap: 12px;
+        }
+        .fig {
+          height: min(43vh, 360px);
+        }
+        .ctl {
+          gap: 8px;
+        }
+        .ctl button {
+          width: 42px;
+          height: 42px;
+        }
+        .ctl button.main {
+          width: 50px;
+          height: 50px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+        .stage.is-opening,
+        .stage.is-opening .fig,
+        .stage.is-opening .info,
+        .stage.is-opening .ctl,
+        .stage.is-opening .glow,
+        .stage.is-opening .fig::after,
+        .stage.is-opening .close,
+        .stage.is-opening .sparkle {
+          animation: none;
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="pond-hero" aria-label="A moonlit lotus pond gift preview">
+        <iframe
+          class="pond-embed"
+          id="pond-frame"
+          src="pond-scene.html"
+          title="Interactive 3D moonlit lotus pond"
+          allow="fullscreen"
+        ></iframe>
+      </section>
+    </main>
+
+    <div
+      class="stage"
+      id="stage"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="title"
+      aria-describedby="note"
+    >
+      <div class="glow"></div>
+      <button class="close" id="close" aria-label="Close">&times;</button>
+      <div class="fig">
+        <img class="fill" id="fill" alt="" />
+        <img class="lines" id="lines" alt="" hidden />
+        <div class="sparkles" aria-hidden="true">
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+          <span class="sparkle"></span>
+        </div>
+      </div>
+      <div class="info">
+        <h2 id="title"></h2>
+        <p id="artist"></p>
+        <p class="note" id="note"></p>
+      </div>
+      <div class="ctl">
+        <button id="prev" aria-label="Previous">
+          <svg viewBox="0 0 16 16"><path d="M3 2h2v12H3zM14 2v12L6 8z" /></svg>
+        </button>
+        <button class="main" id="toggle" aria-label="Play">
+          <svg id="ico" viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z" /></svg>
+        </button>
+        <button id="next" aria-label="Next">
+          <svg viewBox="0 0 16 16">
+            <path d="M11 2h2v12h-2zM2 2l8 6-8 6z" />
+          </svg>
+        </button>
+        <div class="seek">
+          <span id="cur">0:00</span
+          ><input
+            id="bar"
+            type="range"
+            min="0"
+            max="1000"
+            value="0"
+            aria-label="Seek"
+          /><span id="dur">0:00</span>
+        </div>
+      </div>
+      <audio id="audio" preload="metadata"></audio>
+    </div>
+
+    <script>
+      function artData({ bg1, bg2, accent, accent2, title, subtitle }) {
+        const svg = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+            <defs>
+              <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="${bg1}"/>
+                <stop offset="100%" stop-color="${bg2}"/>
+              </linearGradient>
+              <linearGradient id="glow" x1="0" x2="1">
+                <stop offset="0%" stop-color="${accent}" stop-opacity="0.85"/>
+                <stop offset="100%" stop-color="${accent2}" stop-opacity="0.92"/>
+              </linearGradient>
+            </defs>
+            <rect width="800" height="1000" fill="url(#bg)"/>
+            <circle cx="400" cy="340" r="250" fill="url(#glow)" opacity="0.3"/>
+            <circle cx="640" cy="180" r="90" fill="${accent2}" opacity="0.18"/>
+            <circle cx="170" cy="760" r="110" fill="${accent}" opacity="0.14"/>
+            <g opacity="0.82">
+              <path d="M100 760c60-172 98-336 132-492 20-94 90-134 154-134 96 0 172 93 170 195-2 95-72 164-146 186-58 17-98 18-154 58-38 29-95 93-156 187Z" fill="${accent2}" opacity="0.18"/>
+              <path d="M505 470c22-66 73-102 120-100 56 2 104 42 121 104 17 65-6 118-82 163-46 28-68 41-111 78-52-49-96-95-93-164 1-22 20-52 45-81Z" fill="${accent}" opacity="0.18"/>
+            </g>
+            <g fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2">
+              <path d="M80 260c70-40 132-60 200-50"/>
+              <path d="M520 250c70 10 130 30 180 74"/>
+            </g>
+            <g font-family="Georgia, serif" fill="#fff9fe">
+              <text x="72" y="146" font-size="38" style="letter-spacing:3px;">JUST FOR YOU</text>
+              <text x="72" y="205" font-size="70" font-style="italic">${title}</text>
+              <text x="72" y="252" font-size="28" opacity="0.8">${subtitle}</text>
+            </g>
+            <g>
+              <g transform="translate(175 520)">
+                <path d="M36 60c-26-46-9-101 46-112 42-9 78 14 96 52 17-37 54-59 96-52 55 11 72 66 46 112-23 40-60 62-102 90-34 23-58 39-82 73-24-34-52-50-100-73-43-28-80-50-96-90Z" fill="${accent}" opacity="0.82"/>
+              </g>
+              <g transform="translate(430 610) scale(0.75)">
+                <path d="M36 60c-26-46-9-101 46-112 42-9 78 14 96 52 17-37 54-59 96-52 55 11 72 66 46 112-23 40-60 62-102 90-34 23-58 39-82 73-24-34-52-50-100-73-43-28-80-50-96-90Z" fill="${accent2}" opacity="0.8"/>
+              </g>
+            </g>
+          </svg>
+        `;
+        return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+      }
+
+      const ENTRIES = [
+        {
+          title: "Your smile",
+          artist: "A little thing I admire",
+          note: "Your smile has a way of making an ordinary day feel a little brighter. I thought you should know.",
+          layerName: "your-smile",
+          fill: artData({
+            bg1: "#1d1127",
+            bg2: "#3f1944",
+            accent: "#ff9dc0",
+            accent2: "#ffd88c",
+            title: "your smile",
+            subtitle: "my favorite hello",
+          }),
+          audio: "",
+          color: "#ef7cb2",
+        },
+        {
+          title: "A little daydream",
+          artist: "A moment I imagine",
+          note: "Maybe someday we could take a walk, share a few laughs, and see where a lovely conversation takes us.",
+          layerName: "daydream",
+          fill: artData({
+            bg1: "#111b2f",
+            bg2: "#3d2d50",
+            accent: "#ffbf8d",
+            accent2: "#ff7a9b",
+            title: "daydream",
+            subtitle: "maybe, someday",
+          }),
+          audio: "",
+          color: "#f7a278",
+        },
+        {
+          title: "A small confession",
+          artist: "Something I wanted to say",
+          note: "I think you’re wonderful, and I have a bit of a crush on you. No pressure at all—I just wanted to make you smile.",
+          layerName: "your-smile",
+          fill: artData({
+            bg1: "#160f26",
+            bg2: "#2f1a41",
+            accent: "#caa7ff",
+            accent2: "#7de0d3",
+            title: "a crush",
+            subtitle: "just wanted you to know",
+          }),
+          audio: "",
+          color: "#baa0ff",
+        },
+      ];
+
+      const $ = (id) => document.getElementById(id);
+      const audio = $("audio"),
+        stage = $("stage"),
+        bar = $("bar"),
+        figure = document.querySelector(".fig");
+      let cur = -1,
+        raf = 0,
+        lastFocus = null;
+
+      const PLAY = '<path d="M4 2l10 6-10 6z"/>',
+        PAUSE = '<path d="M3 2h4v12H3zM9 2h4v12H9z"/>';
+      const fmt = (s) =>
+        isFinite(s)
+          ? Math.floor(s / 60) +
+            ":" +
+            String(Math.floor(s % 60)).padStart(2, "0")
+          : "0:00";
+
+      function open(i, play) {
+        const isOpening = stage.hidden;
+        if (isOpening) {
+          lastFocus = document.activeElement;
+          stage.classList.remove("is-opening");
+        }
+        cur = (i + ENTRIES.length) % ENTRIES.length;
+        const e = ENTRIES[cur];
+        stage.style.setProperty("--tc", e.color);
+        stage.hidden = false;
+        if (isOpening) {
+          void stage.offsetWidth;
+          stage.classList.add("is-opening");
+        }
+        document.body.style.overflow = "hidden";
+        const fill = $("fill");
+        if (e.layerName) {
+          fill.onerror = () => {
+            fill.onerror = null;
+            fill.src = e.fill;
+          };
+          fill.src = `img/${e.layerName}-fill.png`;
+        } else {
+          fill.onerror = null;
+          fill.src = e.fill;
+        }
+        fill.alt = "";
+        const lines = $("lines");
+        lines.hidden = true;
+        if (e.layerName) {
+          lines.onerror = () => {
+            lines.onerror = null;
+            lines.hidden = true;
+          };
+          lines.onload = () => {
+            lines.hidden = false;
+          };
+          lines.src = `img/${e.layerName}-lines.svg?replay=${Date.now()}`;
+        } else {
+          lines.onerror = null;
+          lines.onload = null;
+          lines.removeAttribute("src");
+        }
+        figure.classList.remove("is-revealing");
+        void figure.offsetWidth;
+        figure.classList.add("is-revealing");
+        $("title").textContent = e.title;
+        $("artist").textContent = e.artist;
+        $("note").textContent = e.note || "";
+        if (e.audio) {
+          audio.src = e.audio;
+          audio.load();
+        } else {
+          audio.removeAttribute("src");
+          audio.load();
+        }
+        setProgress(0);
+        bar.value = 0;
+        $("cur").textContent = "0:00";
+        $("dur").textContent = "0:00";
+        if (play && e.audio) audio.play().catch(() => {});
+        $("toggle").focus();
+      }
+      function closeStage() {
+        audio.pause();
+        stage.classList.remove("is-opening");
+        stage.hidden = true;
+        document.body.style.overflow = "";
+        if (lastFocus) lastFocus.focus();
+      }
+      function setProgress(p) {
+        $("fill").style.setProperty("--e", (p * 114).toFixed(2) + "%");
+      }
+      function tick() {
+        if (audio.duration) {
+          const p = audio.currentTime / audio.duration;
+          setProgress(p);
+          bar.value = Math.round(p * 1000);
+          $("cur").textContent = fmt(audio.currentTime);
+        }
+        if (!audio.paused) raf = requestAnimationFrame(tick);
+      }
+      audio.addEventListener("play", () => {
+        figure.classList.remove("is-revealing");
+        $("ico").innerHTML = PAUSE;
+        $("toggle").setAttribute("aria-label", "Pause");
+        cancelAnimationFrame(raf);
+        tick();
+      });
+      audio.addEventListener("pause", () => {
+        $("ico").innerHTML = PLAY;
+        $("toggle").setAttribute("aria-label", "Play");
+        tick();
+      });
+      audio.addEventListener("loadedmetadata", () => {
+        $("dur").textContent = fmt(audio.duration);
+      });
+      audio.addEventListener("ended", () => {
+        setProgress(1);
+        if (ENTRIES.length > 1) open(cur + 1, true);
+      });
+      $("toggle").addEventListener("click", () => {
+        if (!audio.getAttribute("src")) {
+          $("note").textContent =
+            "I haven’t added a song yet—but this little note is just for you.";
+          return;
+        }
+        audio.paused ? audio.play().catch(() => {}) : audio.pause();
+      });
+      $("prev").addEventListener("click", () => open(cur - 1, !audio.paused));
+      $("next").addEventListener("click", () => open(cur + 1, !audio.paused));
+      const pondFrame = $("pond-frame");
+      window.addEventListener("message", (event) => {
+        if (event.source !== pondFrame.contentWindow) return;
+        if (!event.data || event.data.type !== "pond:open-entry") return;
+        const frameIndex = event.data.frameIndex;
+        if (!Number.isSafeInteger(frameIndex) || frameIndex < 0) return;
+        open(frameIndex % ENTRIES.length, false);
+      });
+      $("close").addEventListener("click", closeStage);
+      bar.addEventListener("input", () => {
+        if (audio.duration) {
+          audio.currentTime = (bar.value / 1000) * audio.duration;
+          tick();
+        }
+      });
+      document.addEventListener("keydown", (e) => {
+        if (stage.hidden) return;
+        if (e.key === "Tab") {
+          const focusable = stage.querySelectorAll(
+            'button:not([disabled]), input:not([disabled])',
+          );
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (!stage.contains(document.activeElement)) {
+            e.preventDefault();
+            (e.shiftKey ? last : first).focus();
+          } else if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        } else if (e.key === "Escape") {
+          closeStage();
+        } else if (e.key === "ArrowRight" && e.target !== bar) {
+          open(cur + 1, !audio.paused);
+        } else if (e.key === "ArrowLeft" && e.target !== bar) {
+          open(cur - 1, !audio.paused);
+        }
+      });
+    </script>
+  </body>
+</html>
