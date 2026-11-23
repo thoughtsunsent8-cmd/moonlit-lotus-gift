@@ -232,7 +232,19 @@
           0 0 18px rgba(243, 203, 130, 0.14);
       }
       .music-control[aria-pressed="true"] {
-        border-color: rgba(243, 203, 130, 0.62);
+        border-color: rgba(243, 203, 130, 0.96);
+        background: rgba(49, 56, 74, 0.96);
+        box-shadow:
+          0 12px 30px rgba(2, 7, 24, 0.34),
+          0 0 22px rgba(243, 203, 130, 0.28),
+          inset 0 0 0 1px rgba(243, 203, 130, 0.2);
+      }
+      .music-control[aria-pressed="true"] .music-icon {
+        animation: music-note-pulse 900ms ease-in-out infinite alternate;
+      }
+      @keyframes music-note-pulse {
+        from { transform: scale(1); text-shadow: 0 0 2px rgba(243, 203, 130, 0.4); }
+        to { transform: scale(1.22); text-shadow: 0 0 12px rgba(243, 203, 130, 0.95); }
       }
       .music-control:disabled {
         cursor: default;
@@ -248,16 +260,17 @@
           right: max(16px, env(safe-area-inset-right, 0px));
           bottom: auto;
           left: auto;
-          width: 42px;
+          width: auto;
+          min-width: 42px;
           height: 42px;
           justify-content: center;
-          padding: 0;
+          padding: 0 12px;
         }
         .music-control #musicLabel {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          overflow: hidden;
+          position: static;
+          width: auto;
+          height: auto;
+          overflow: visible;
           clip: rect(0, 0, 0, 0);
           white-space: nowrap;
         }
@@ -1281,7 +1294,7 @@
     <input type="file" id="musicFileInput" accept="audio/*" hidden />
     <audio
       id="backgroundMusic"
-      preload="none"
+      preload="auto"
       loop
       src="music/Vietsub%20Last%20Night%20On%20Earth%20-%20Green%20Day%20Lyrics%20Video.mp3"
     ></audio>
@@ -1435,6 +1448,7 @@
           musicLabel.textContent = "Play music";
         }
         function playMusic() {
+          musicLabel.textContent = "Loading music…";
           backgroundMusic.play().catch(function (error) {
             if (error.name === "AbortError" || error.name === "NotAllowedError")
               return;
@@ -1453,12 +1467,18 @@
         backgroundMusic.addEventListener("play", function () {
           musicToggle.setAttribute("aria-pressed", "true");
           musicToggle.setAttribute("aria-label", "Pause background music");
-          musicLabel.textContent = "Pause music";
+          musicLabel.textContent = "Music playing · Pause";
         });
         backgroundMusic.addEventListener("pause", function () {
           musicToggle.setAttribute("aria-pressed", "false");
           musicToggle.setAttribute("aria-label", "Play background music");
           musicLabel.textContent = "Play music";
+        });
+        backgroundMusic.addEventListener("waiting", function () {
+          if (!backgroundMusic.paused) musicLabel.textContent = "Loading music…";
+        });
+        backgroundMusic.addEventListener("playing", function () {
+          musicLabel.textContent = "Music playing · Pause";
         });
         backgroundMusic.addEventListener("error", function () {
           markMusicUnavailable(backgroundMusic.error);
