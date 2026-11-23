@@ -1301,6 +1301,8 @@
     <input type="file" id="musicFileInput" accept="audio/*" hidden />
     <audio
       id="backgroundMusic"
+      autoplay
+      muted
       preload="auto"
       loop
       src="music/Vietsub%20Last%20Night%20On%20Earth%20-%20Green%20Day%20Lyrics%20Video.mp3"
@@ -1379,6 +1381,7 @@
           musicNeedsFile = false,
           musicObjectUrl = null,
           musicDatabasePromise = null;
+        backgroundMusic.muted = true;
         backgroundMusic.volume = 0.42;
         function openMusicDatabase() {
           if (!musicDatabasePromise) {
@@ -1457,7 +1460,11 @@
         function playMusic() {
           musicLabel.textContent = "Loading music…";
           backgroundMusic.play().catch(function (error) {
-            if (error.name === "AbortError" || error.name === "NotAllowedError")
+            if (error.name === "NotAllowedError") {
+              musicLabel.textContent = "Tap anywhere for sound";
+              return;
+            }
+            if (error.name === "AbortError")
               return;
             markMusicUnavailable(error);
           });
@@ -1473,8 +1480,15 @@
         }
         backgroundMusic.addEventListener("play", function () {
           musicToggle.setAttribute("aria-pressed", "true");
-          musicToggle.setAttribute("aria-label", "Pause background music");
-          musicLabel.textContent = "Music playing · Pause";
+          musicToggle.setAttribute(
+            "aria-label",
+            backgroundMusic.muted
+              ? "Turn on background music"
+              : "Pause background music",
+          );
+          musicLabel.textContent = backgroundMusic.muted
+            ? "Tap for sound"
+            : "Music playing · Pause";
         });
         backgroundMusic.addEventListener("pause", function () {
           musicToggle.setAttribute("aria-pressed", "false");
@@ -1485,7 +1499,9 @@
           if (!backgroundMusic.paused) musicLabel.textContent = "Loading music…";
         });
         backgroundMusic.addEventListener("playing", function () {
-          musicLabel.textContent = "Music playing · Pause";
+          musicLabel.textContent = backgroundMusic.muted
+            ? "Tap for sound"
+            : "Music playing · Pause";
         });
         backgroundMusic.addEventListener("error", function () {
           markMusicUnavailable(backgroundMusic.error);
@@ -1495,12 +1511,29 @@
             musicFileInput.click();
             return;
           }
+          if (backgroundMusic.muted) {
+            backgroundMusic.muted = false;
+            musicToggle.setAttribute("aria-label", "Pause background music");
+            if (backgroundMusic.paused) playMusic();
+            else musicLabel.textContent = "Music playing · Pause";
+            return;
+          }
           if (backgroundMusic.paused) {
             playMusic();
           } else {
             backgroundMusic.pause();
           }
         });
+        document.addEventListener(
+          "pointerdown",
+          function enableMusicOnFirstTouch(event) {
+            if (event.target.closest("#musicToggle") || musicNeedsFile) return;
+            backgroundMusic.muted = false;
+            if (backgroundMusic.paused) playMusic();
+            else musicLabel.textContent = "Music playing · Pause";
+          },
+          { once: true, capture: true },
+        );
         musicFileInput.addEventListener("change", function () {
           var file = musicFileInput.files && musicFileInput.files[0];
           if (!file) return;
