@@ -1506,22 +1506,22 @@
             );
           });
         });
+        // Start loading the bundled track right away; restoring IndexedDB first
+        // can add noticeable startup latency on slower devices.
+        musicNeedsFile = !backgroundMusic.currentSrc;
+        if (!musicNeedsFile) playMusic();
         getSavedMusicFile()
           .then(function (file) {
-            if (file) {
-              setMusicFile(file);
-            } else {
-              musicNeedsFile = !backgroundMusic.currentSrc;
-            }
-            if (!musicNeedsFile) playMusic();
+            if (!file) return;
+            var wasPlaying = !backgroundMusic.paused;
+            setMusicFile(file);
+            if (wasPlaying) playMusic();
           })
           .catch(function (error) {
             console.error(
               "Could not restore the saved background music.",
               error,
             );
-            musicNeedsFile = !backgroundMusic.currentSrc;
-            if (!musicNeedsFile) playMusic();
           });
         var reduce = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
