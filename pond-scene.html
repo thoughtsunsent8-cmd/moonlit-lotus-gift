@@ -93,14 +93,22 @@
       .scene-atmosphere::before {
         top: -18%;
         left: -12%;
-        background: linear-gradient(120deg, rgba(79, 190, 194, 0.5), transparent 58%);
+        background: linear-gradient(
+          120deg,
+          rgba(79, 190, 194, 0.5),
+          transparent 58%
+        );
         transform: rotate(-8deg);
         animation: atmosphere-left 16s ease-in-out infinite alternate;
       }
       .scene-atmosphere::after {
         right: -15%;
         bottom: 4%;
-        background: linear-gradient(240deg, rgba(171, 137, 220, 0.46), transparent 62%);
+        background: linear-gradient(
+          240deg,
+          rgba(171, 137, 220, 0.46),
+          transparent 62%
+        );
         transform: rotate(8deg);
         animation: atmosphere-right 18s ease-in-out infinite alternate;
       }
@@ -124,46 +132,15 @@
         width: 44%;
         height: 1px;
         opacity: 0.38;
-        background: linear-gradient(90deg, transparent, rgba(216, 235, 255, 0.7), transparent);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(216, 235, 255, 0.7),
+          transparent
+        );
         transform: translateX(-50%);
         filter: blur(2px);
         animation: pond-shimmer 7s ease-in-out infinite;
-      }
-      .scene-ripples {
-        position: absolute;
-        z-index: 1;
-        left: 50%;
-        bottom: -19%;
-        width: min(1120px, 100vw);
-        height: 58vh;
-        transform: translateX(-50%);
-        pointer-events: none;
-        opacity: 0.22;
-        background:
-          repeating-radial-gradient(
-            ellipse at 50% 34%,
-            transparent 0 28px,
-            rgba(142, 215, 218, 0.16) 29px,
-            transparent 31px 48px
-          ),
-          radial-gradient(
-            ellipse at 50% 32%,
-            rgba(77, 165, 174, 0.18),
-            transparent 67%
-          );
-        -webkit-mask-image: radial-gradient(
-          ellipse at 50% 38%,
-          #000 0,
-          transparent 74%
-        );
-        mask-image: radial-gradient(ellipse at 50% 38%, #000 0, transparent 74%);
-        animation: ripple-drift 18s ease-in-out infinite alternate;
-      }
-      @keyframes ripple-drift {
-        to {
-          transform: translateX(-50%) translateY(-12px) scale(1.035);
-          opacity: 0.34;
-        }
       }
       @keyframes pond-shimmer {
         0%,
@@ -184,6 +161,24 @@
         padding-block: 14px;
         padding-left: max(16px, env(safe-area-inset-left, 0px));
         padding-right: max(16px, env(safe-area-inset-right, 0px));
+      }
+      .ui::before {
+        content: "";
+        position: absolute;
+        inset: 9px;
+        border: 1px solid rgba(229, 200, 158, 0.15);
+        border-radius: 20px;
+        box-shadow: inset 0 0 0 1px rgba(188, 214, 255, 0.04);
+        background:
+          linear-gradient(135deg, rgba(244, 201, 146, 0.34), transparent 55%)
+            top left / 42px 42px no-repeat,
+          linear-gradient(225deg, rgba(144, 209, 218, 0.28), transparent 55%)
+            top right / 42px 42px no-repeat,
+          linear-gradient(45deg, rgba(144, 209, 218, 0.24), transparent 55%)
+            bottom left / 42px 42px no-repeat,
+          linear-gradient(315deg, rgba(244, 201, 146, 0.3), transparent 55%)
+            bottom right / 42px 42px no-repeat;
+        pointer-events: none;
       }
       .ui > * {
         pointer-events: auto;
@@ -249,10 +244,22 @@
       }
       @media (max-width: 700px) {
         .music-control {
-          top: max(82px, calc(env(safe-area-inset-top, 0px) + 66px));
+          top: max(120px, calc(env(safe-area-inset-top, 0px) + 104px));
           right: max(16px, env(safe-area-inset-right, 0px));
           bottom: auto;
           left: auto;
+          width: 42px;
+          height: 42px;
+          justify-content: center;
+          padding: 0;
+        }
+        .music-control #musicLabel {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
         }
       }
 
@@ -265,13 +272,17 @@
         border-color: rgba(241, 161, 185, 0.3);
         background: linear-gradient(
           135deg,
-          rgba(31, 24, 57, 0.82),
-          rgba(13, 23, 53, 0.74)
+          rgba(41, 28, 62, 0.64),
+          rgba(12, 24, 54, 0.58)
         );
         box-shadow:
-          0 16px 38px rgba(2, 7, 24, 0.22),
-          0 0 28px rgba(226, 95, 133, 0.08);
-        animation: title-enter 900ms 180ms both cubic-bezier(0.22, 0.61, 0.36, 1);
+          0 16px 38px rgba(2, 7, 24, 0.16),
+          0 0 28px rgba(226, 95, 133, 0.12),
+          inset 0 1px 0 rgba(255, 226, 236, 0.11);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        animation: title-enter 900ms 180ms both
+          cubic-bezier(0.22, 0.61, 0.36, 1);
       }
       @keyframes title-enter {
         from {
@@ -284,6 +295,24 @@
           transform: translate3d(0, 0, 0);
           filter: blur(0);
         }
+      }
+      .title-card::before {
+        content: "✧";
+        position: absolute;
+        top: 11px;
+        right: 13px;
+        display: grid;
+        width: 28px;
+        height: 28px;
+        place-items: center;
+        border: 1px solid rgba(240, 197, 138, 0.42);
+        border-radius: 50%;
+        color: #f4d8a8;
+        font: 400 17px/1 var(--display);
+        box-shadow:
+          inset 0 0 12px rgba(240, 197, 138, 0.09),
+          0 0 16px rgba(240, 197, 138, 0.12);
+        pointer-events: none;
       }
       .title-card::after {
         content: "";
@@ -356,7 +385,8 @@
         box-shadow:
           0 14px 36px rgba(2, 7, 24, 0.2),
           0 0 24px rgba(86, 190, 197, 0.08);
-        animation: title-enter 900ms 320ms both cubic-bezier(0.22, 0.61, 0.36, 1);
+        animation: title-enter 900ms 320ms both
+          cubic-bezier(0.22, 0.61, 0.36, 1);
       }
       .memory-copy {
         display: grid;
@@ -376,6 +406,11 @@
       .memory-count span {
         color: #c4c9df;
         font: 400 12px var(--body);
+      }
+      @media (max-width: 640px) {
+        .memory-card {
+          display: none;
+        }
       }
       .memory-seal {
         position: relative;
@@ -404,6 +439,39 @@
         inset: -4px;
         border-color: rgba(144, 209, 218, 0.2);
       }
+      @media (min-width: 521px) and (max-width: 640px) {
+        .memory-card {
+          display: flex;
+          min-width: 0;
+          gap: 8px;
+          padding: 7px 10px;
+          border-radius: 999px;
+        }
+        .memory-seal {
+          width: 24px;
+          height: 24px;
+          font-size: 15px;
+        }
+        .memory-seal::before {
+          inset: 3px;
+        }
+        .memory-seal::after {
+          inset: -3px;
+        }
+        .memory-copy {
+          gap: 0;
+        }
+        .memory-label {
+          display: none;
+        }
+        .memory-count {
+          font-size: 14px;
+          white-space: nowrap;
+        }
+        .memory-count span {
+          font-size: 10px;
+        }
+      }
 
       .prompt {
         box-sizing: border-box;
@@ -411,19 +479,43 @@
         left: 50%;
         bottom: 14px;
         transform: translateX(-50%);
-        width: min(420px, calc(100% - 2 * max(16px, env(safe-area-inset-left, 0px))));
+        width: min(
+          420px,
+          calc(100% - 2 * max(16px, env(safe-area-inset-left, 0px)))
+        );
         padding: 9px;
         border-color: rgba(245, 163, 187, 0.34);
         border-radius: 22px;
         background: linear-gradient(
           135deg,
-          rgba(24, 24, 58, 0.84),
-          rgba(43, 24, 58, 0.78)
+          rgba(35, 25, 66, 0.91),
+          rgba(41, 24, 61, 0.86)
         );
         box-shadow:
           0 18px 44px rgba(2, 7, 24, 0.24),
-          0 0 28px rgba(226, 95, 133, 0.1);
-        animation: prompt-enter 900ms 620ms both cubic-bezier(0.22, 0.61, 0.36, 1);
+          0 0 28px rgba(226, 95, 133, 0.14),
+          inset 0 1px 0 rgba(255, 226, 236, 0.1);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        animation: prompt-enter 900ms 620ms both
+          cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
+      .prompt::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 82px;
+        height: 1px;
+        transform: translateX(-50%);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 220, 164, 0.9),
+          transparent
+        );
+        box-shadow: 0 0 10px rgba(255, 220, 164, 0.4);
+        pointer-events: none;
       }
       .prompt-kicker {
         margin: 0 0 8px;
@@ -476,7 +568,12 @@
         padding: 12px 18px;
         font-size: 13px;
         font-weight: 600;
-        background: linear-gradient(180deg, #f08fa8 0%, #d86182 58%, #bd466d 100%);
+        background: linear-gradient(
+          180deg,
+          #f08fa8 0%,
+          #d86182 58%,
+          #bd466d 100%
+        );
         white-space: nowrap;
         transition:
           transform 180ms ease,
@@ -542,7 +639,8 @@
         animation: viewer-veil-in 480ms cubic-bezier(0.22, 0.61, 0.36, 1);
       }
       .photo-viewer.open .viewer-caption {
-        animation: viewer-ui-in 540ms 180ms both cubic-bezier(0.22, 0.61, 0.36, 1);
+        animation: viewer-ui-in 540ms 180ms both
+          cubic-bezier(0.22, 0.61, 0.36, 1);
       }
       .photo-viewer.open .viewer-nav.prev {
         animation-name: viewer-ui-left;
@@ -551,10 +649,12 @@
         animation-name: viewer-ui-right;
       }
       .photo-viewer.open .viewer-close {
-        animation: viewer-close-in 420ms 220ms both cubic-bezier(0.22, 0.61, 0.36, 1);
+        animation: viewer-close-in 420ms 220ms both
+          cubic-bezier(0.22, 0.61, 0.36, 1);
       }
       .photo-viewer.open .viewer-nav {
-        animation: viewer-nav-in 420ms 260ms both cubic-bezier(0.22, 0.61, 0.36, 1);
+        animation: viewer-nav-in 420ms 260ms both
+          cubic-bezier(0.22, 0.61, 0.36, 1);
       }
       @keyframes viewer-close-in {
         from {
@@ -672,7 +772,9 @@
         -webkit-user-drag: none;
         transform: translate(-50%, -50%) translate(0px, 0px) scale(1);
         transform-origin: center center;
-        transition: opacity 260ms ease, transform 160ms ease;
+        transition:
+          opacity 260ms ease,
+          transform 160ms ease;
         pointer-events: none;
       }
       .photo-stage img.visible {
@@ -699,37 +801,50 @@
       @keyframes viewer-photo-next {
         0% {
           opacity: 0;
-          filter: blur(8px) brightness(1.12);
-          transform: translate(-50%, -50%) translate(54px, 0) scale(0.94);
+          filter: blur(6px) brightness(1.1);
+          translate: 58px 0;
+          scale: 0.95;
         }
-        55% {
+        72% {
           opacity: 1;
-          filter: blur(1px) brightness(1.04);
+          filter: blur(0.5px) brightness(1.03);
+          translate: -3px 0;
+          scale: 1.01;
         }
         100% {
           opacity: 1;
           filter: blur(0) brightness(1);
-          transform: translate(-50%, -50%) translate(0, 0) scale(1);
+          translate: 0 0;
+          scale: 1;
         }
       }
       @keyframes viewer-photo-prev {
         0% {
           opacity: 0;
-          filter: blur(8px) brightness(1.12);
-          transform: translate(-50%, -50%) translate(-54px, 0) scale(0.94);
+          filter: blur(6px) brightness(1.1);
+          translate: -58px 0;
+          scale: 0.95;
         }
-        55% {
+        72% {
           opacity: 1;
-          filter: blur(1px) brightness(1.04);
+          filter: blur(0.5px) brightness(1.03);
+          translate: 3px 0;
+          scale: 1.01;
         }
         100% {
           opacity: 1;
           filter: blur(0) brightness(1);
-          transform: translate(-50%, -50%) translate(0, 0) scale(1);
+          translate: 0 0;
+          scale: 1;
         }
       }
       .photo-stage.dragging img {
         transition: none;
+      }
+      .photo-stage.loading .viewer-photo-matte,
+      .photo-stage.loading .viewer-photo-frame {
+        opacity: 0;
+        transition: opacity 180ms ease;
       }
       .viewer-trace-backdrop,
       .viewer-trace,
@@ -780,6 +895,7 @@
         box-shadow:
           0 0 28px rgba(92, 181, 194, 0.18),
           0 24px 80px rgba(0, 0, 0, 0.72);
+        transition: opacity 180ms ease;
         animation: viewer-moon-glow 8s ease-in-out infinite alternate;
       }
       @keyframes viewer-moon-glow {
@@ -798,6 +914,7 @@
         box-shadow:
           0 0 0 5px rgba(5, 16, 32, 0.78),
           0 0 0 6px rgba(133, 197, 208, 0.28);
+        transition: opacity 180ms ease;
         animation: viewer-frame-breathe 4.8s ease-in-out infinite alternate;
       }
       @keyframes viewer-frame-breathe {
@@ -869,18 +986,24 @@
       .viewer-caption {
         position: absolute;
         z-index: 2;
-        top: max(16px, env(safe-area-inset-top, 0px));
+        top: 50%;
+        bottom: auto;
         left: 50%;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        max-width: calc(100vw - 128px);
-        padding: 10px 15px;
+        width: min(540px, calc(100vw - 88px));
+        padding: 13px 16px 11px 28px;
         transform: translateX(-50%);
-        border: 1px solid rgba(173, 193, 255, 0.24);
-        border-radius: 999px;
-        background: rgba(12, 20, 48, 0.78);
-        color: var(--ink);
+        border: 1px solid rgba(255, 215, 145, 0.64);
+        border-radius: 14px;
+        background: linear-gradient(
+          135deg,
+          rgba(31, 43, 79, 0.98),
+          rgba(10, 18, 42, 0.98)
+        );
+        box-shadow:
+          0 12px 36px rgba(0, 0, 0, 0.48),
+          0 0 26px rgba(243, 203, 130, 0.16),
+          inset 0 1px rgba(255, 255, 255, 0.08);
+        color: #fff8ec;
         font-size: 13px;
         line-height: 1.2;
         backdrop-filter: blur(12px);
@@ -888,25 +1011,37 @@
         pointer-events: none;
       }
       .viewer-caption::before {
-        flex: 0 0 6px;
-        width: 6px;
-        height: 6px;
+        position: absolute;
+        top: 18px;
+        left: 13px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
         background: #f3cb82;
         box-shadow: 0 0 10px rgba(243, 203, 130, 0.62);
         content: "";
       }
       .viewer-title {
-        overflow: hidden;
+        display: block;
+        overflow-wrap: break-word;
         font-family: var(--display);
-        font-size: 17px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.4;
+        text-shadow: 0 1px 10px rgba(243, 203, 130, 0.12);
       }
       .viewer-count {
-        flex: 0 0 auto;
-        color: var(--muted);
+        display: block;
+        width: max-content;
+        margin: 8px 0 0 auto;
+        padding: 3px 8px;
+        border: 1px solid rgba(255, 215, 145, 0.2);
+        border-radius: 999px;
+        background: rgba(255, 215, 145, 0.08);
+        color: rgba(236, 229, 218, 0.78);
+        font-size: 12px;
         font-variant-numeric: tabular-nums;
+        text-align: right;
       }
       .viewer-close:focus-visible,
       .viewer-nav:focus-visible {
@@ -960,16 +1095,29 @@
       }
       @media (max-width: 520px) {
         .photo-stage img {
+          max-width: 70vw;
           max-height: min(54vh, 460px);
         }
+        .viewer-nav {
+          width: 40px;
+          height: 40px;
+        }
+        .viewer-nav.prev {
+          left: 8px;
+        }
+        .viewer-nav.next {
+          right: 8px;
+        }
         .viewer-caption {
-          gap: 8px;
-          max-width: calc(100vw - 104px);
-          padding: 9px 12px;
-          font-size: 12px;
+          width: calc(100vw - 56px);
+          padding: 14px 16px 12px 30px;
+          font-size: 15px;
         }
         .viewer-title {
-          font-size: 15px;
+          font-size: clamp(17px, 5vw, 20px);
+        }
+        .viewer-count {
+          font-size: 12px;
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -985,9 +1133,6 @@
         .prompt,
         .scene-atmosphere,
         .scene-shimmer,
-        .scene-ripples {
-          transition: none !important;
-        }
         .viewer-photo-matte {
           animation: none;
         }
@@ -998,7 +1143,6 @@
         .scene-atmosphere::before,
         .scene-atmosphere::after,
         .scene-shimmer,
-        .scene-ripples,
         .title-card,
         .prompt,
         .grow {
@@ -1028,18 +1172,17 @@
       }
       @media (max-width: 520px) {
         .title-card {
-          max-width: 100%;
+          box-sizing: border-box;
+          max-width: calc(100% - 32px);
           right: max(16px, env(safe-area-inset-right, 0px));
-        }
-        .memory-card {
-          display: none;
+          padding: 12px 14px 13px;
         }
         .title-card h1 {
           font-size: 19px;
         }
         .prompt {
           bottom: max(10px, env(safe-area-inset-bottom, 0px));
-          padding: 8px;
+          padding: 7px;
         }
         .prompt-kicker {
           margin-bottom: 6px;
@@ -1048,6 +1191,10 @@
         .prompt-hint {
           margin-top: 7px;
           font-size: 9px;
+        }
+        .grow {
+          min-height: 44px;
+          padding: 10px 14px;
         }
       }
       @media (orientation: landscape) and (max-height: 520px) {
@@ -1091,7 +1238,6 @@
     <div id="app">
       <div class="scene-atmosphere" aria-hidden="true"></div>
       <div class="scene-shimmer" aria-hidden="true"></div>
-      <div class="scene-ripples" aria-hidden="true"></div>
       <div class="ui" id="ui">
         <div class="title-card glass">
           <div class="eyebrow">3D gift preview</div>
@@ -1099,7 +1245,10 @@
           <div class="occasion">Occasion · I love you</div>
         </div>
 
-        <aside class="memory-card glass" aria-label="Twenty moments in this gallery">
+        <aside
+          class="memory-card glass"
+          aria-label="Twenty moments in this gallery"
+        >
           <span class="memory-seal" aria-hidden="true">✧</span>
           <span class="memory-copy">
             <span class="memory-label">Our little universe</span>
@@ -1114,33 +1263,87 @@
           </div>
           <div class="prompt-hint">
             <span class="hint-dot" aria-hidden="true"></span>
-            Tap a photo to open · Drag to explore
+            Tap photos · Drag to rotate · Pinch or scroll to zoom
           </div>
         </div>
       </div>
     </div>
-    <button class="music-control" id="musicToggle" type="button" aria-label="Choose a local music file" aria-pressed="false">
+    <button
+      class="music-control"
+      id="musicToggle"
+      type="button"
+      aria-label="Play background music"
+      aria-pressed="false"
+    >
       <span class="music-icon" aria-hidden="true">♫</span>
-      <span id="musicLabel">Choose music file</span>
+      <span id="musicLabel">Play music</span>
     </button>
     <input type="file" id="musicFileInput" accept="audio/*" hidden />
-    <audio id="backgroundMusic" preload="none" loop></audio>
+    <audio
+      id="backgroundMusic"
+      preload="none"
+      loop
+      src="music/Vietsub%20Last%20Night%20On%20Earth%20-%20Green%20Day%20Lyrics%20Video.mp3"
+    ></audio>
     <input type="file" id="photoInput" accept="image/*" hidden />
-    <div class="photo-viewer" id="photoViewer" role="dialog" aria-modal="true" aria-labelledby="viewerTitle">
+    <div
+      class="photo-viewer"
+      id="photoViewer"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="viewerTitle"
+    >
       <div class="viewer-caption" role="status" aria-live="polite">
         <span class="viewer-title" id="viewerTitle"></span>
         <span class="viewer-count" id="viewerCount"></span>
       </div>
-      <button class="viewer-close" id="viewerClose" type="button" aria-label="Close photo viewer">×</button>
-      <button class="viewer-nav prev" id="viewerPrev" type="button" aria-label="Previous photo">‹</button>
+      <button
+        class="viewer-close"
+        id="viewerClose"
+        type="button"
+        aria-label="Close photo viewer"
+      >
+        ×
+      </button>
+      <button
+        class="viewer-nav prev"
+        id="viewerPrev"
+        type="button"
+        aria-label="Previous photo"
+      >
+        ‹
+      </button>
       <div class="photo-stage" id="photoStage">
-        <div class="viewer-photo-matte" id="viewerPhotoMatte" aria-hidden="true"></div>
+        <div
+          class="viewer-photo-matte"
+          id="viewerPhotoMatte"
+          aria-hidden="true"
+        ></div>
         <img id="viewerImage" alt="" draggable="false" />
-        <div class="viewer-photo-frame" id="viewerPhotoFrame" aria-hidden="true"></div>
-        <div class="viewer-trace-backdrop" id="viewerTraceBackdrop" aria-hidden="true"></div>
-        <canvas class="viewer-trace" id="viewerTrace" aria-hidden="true"></canvas>
+        <div
+          class="viewer-photo-frame"
+          id="viewerPhotoFrame"
+          aria-hidden="true"
+        ></div>
+        <div
+          class="viewer-trace-backdrop"
+          id="viewerTraceBackdrop"
+          aria-hidden="true"
+        ></div>
+        <canvas
+          class="viewer-trace"
+          id="viewerTrace"
+          aria-hidden="true"
+        ></canvas>
       </div>
-      <button class="viewer-nav next" id="viewerNext" type="button" aria-label="Next photo">›</button>
+      <button
+        class="viewer-nav next"
+        id="viewerNext"
+        type="button"
+        aria-label="Next photo"
+      >
+        ›
+      </button>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1153,14 +1356,17 @@
           musicFileInput = document.getElementById("musicFileInput"),
           musicLabel = document.getElementById("musicLabel"),
           musicErrorReported = false,
-          musicNeedsFile = true,
+          musicNeedsFile = false,
           musicObjectUrl = null,
           musicDatabasePromise = null;
         backgroundMusic.volume = 0.42;
         function openMusicDatabase() {
           if (!musicDatabasePromise) {
             musicDatabasePromise = new Promise(function (resolve, reject) {
-              var request = window.indexedDB.open("moonlit-lotus-pond-music", 1);
+              var request = window.indexedDB.open(
+                "moonlit-lotus-pond-music",
+                1,
+              );
               request.onupgradeneeded = function () {
                 request.result.createObjectStore("tracks");
               };
@@ -1168,7 +1374,9 @@
                 resolve(request.result);
               };
               request.onerror = function () {
-                reject(request.error || new Error("Could not open music storage."));
+                reject(
+                  request.error || new Error("Could not open music storage."),
+                );
               };
             });
           }
@@ -1181,10 +1389,16 @@
               transaction.objectStore("tracks").put(file, "background");
               transaction.oncomplete = resolve;
               transaction.onerror = function () {
-                reject(transaction.error || new Error("Could not save the selected music file."));
+                reject(
+                  transaction.error ||
+                    new Error("Could not save the selected music file."),
+                );
               };
               transaction.onabort = function () {
-                reject(transaction.error || new Error("Saving the selected music file was aborted."));
+                reject(
+                  transaction.error ||
+                    new Error("Saving the selected music file was aborted."),
+                );
               };
             });
           });
@@ -1192,13 +1406,18 @@
         function getSavedMusicFile() {
           return openMusicDatabase().then(function (database) {
             return new Promise(function (resolve, reject) {
-              var request = database.transaction("tracks", "readonly")
-                .objectStore("tracks").get("background");
+              var request = database
+                .transaction("tracks", "readonly")
+                .objectStore("tracks")
+                .get("background");
               request.onsuccess = function () {
                 resolve(request.result || null);
               };
               request.onerror = function () {
-                reject(request.error || new Error("Could not read the saved music file."));
+                reject(
+                  request.error ||
+                    new Error("Could not read the saved music file."),
+                );
               };
             });
           });
@@ -1217,7 +1436,8 @@
         }
         function playMusic() {
           backgroundMusic.play().catch(function (error) {
-            if (error.name === "AbortError" || error.name === "NotAllowedError") return;
+            if (error.name === "AbortError" || error.name === "NotAllowedError")
+              return;
             markMusicUnavailable(error);
           });
         }
@@ -1228,7 +1448,7 @@
           musicToggle.setAttribute("aria-pressed", "false");
           musicToggle.setAttribute("aria-label", "Choose a local music file");
           musicLabel.textContent = "Choose music file";
-          console.error("Unable to play the selected local music file.", error);
+          console.error("Unable to play the background music.", error);
         }
         backgroundMusic.addEventListener("play", function () {
           musicToggle.setAttribute("aria-pressed", "true");
@@ -1260,16 +1480,29 @@
           setMusicFile(file);
           playMusic();
           saveMusicFile(file).catch(function (error) {
-            console.error("Could not remember the selected music file for future visits.", error);
+            console.error(
+              "Could not remember the selected music file for future visits.",
+              error,
+            );
           });
         });
-        getSavedMusicFile().then(function (file) {
-          if (!file) return;
-          setMusicFile(file);
-          playMusic();
-        }).catch(function (error) {
-          console.error("Could not restore the saved background music.", error);
-        });
+        getSavedMusicFile()
+          .then(function (file) {
+            if (file) {
+              setMusicFile(file);
+            } else {
+              musicNeedsFile = !backgroundMusic.currentSrc;
+            }
+            if (!musicNeedsFile) playMusic();
+          })
+          .catch(function (error) {
+            console.error(
+              "Could not restore the saved background music.",
+              error,
+            );
+            musicNeedsFile = !backgroundMusic.currentSrc;
+            if (!musicNeedsFile) playMusic();
+          });
         var reduce = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         ).matches;
@@ -1284,7 +1517,7 @@
           app.insertBefore(m, app.firstChild);
           return;
         }
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 0.85));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
         app.insertBefore(renderer.domElement, app.firstChild);
 
         /* ---------- pink lotus palette ---------- */
@@ -1694,7 +1927,9 @@
         var meteorRight = new THREE.Vector3(),
           meteorUp = new THREE.Vector3(),
           meteorForward = new THREE.Vector3();
-        var STAR_COUNT = 12000;
+        var STAR_COUNT = window.matchMedia("(max-width: 700px)").matches
+          ? 6000
+          : 12000;
         var MEDIUM_STAR_COUNT = Math.floor(STAR_COUNT * 0.05);
         var starRandom = seeded(9137),
           starGeometry = new THREE.BufferGeometry();
@@ -2147,14 +2382,49 @@
         controls.maxDistance = 70;
         controls.maxPolarAngle = Math.PI / 2 - 0.04;
         controls.enablePan = false;
+        var baseAutoRotateSpeed = 0.08,
+          flowerRevealAngularSpeed = (5 * Math.PI) / 180,
+          bloomZoomTarget = 1,
+          bloomZoomReleaseStart = 0;
         controls.autoRotate = !reduce;
-        controls.autoRotateSpeed = 0.08;
+        controls.autoRotateSpeed = baseAutoRotateSpeed;
         var touched = false,
-          lastViewportLandscape = null;
-        controls.addEventListener("start", function () {
+          lastViewportLandscape = null,
+          autoRotateResumeTimer = null;
+        function pauseAutoRotateForInteraction() {
+          if (autoRotateResumeTimer !== null) {
+            window.clearTimeout(autoRotateResumeTimer);
+            autoRotateResumeTimer = null;
+          }
           touched = true;
           controls.autoRotate = false;
+        }
+        function resumeAutoRotateAfterIdle() {
+          if (reduce) return;
+          if (autoRotateResumeTimer !== null)
+            window.clearTimeout(autoRotateResumeTimer);
+          autoRotateResumeTimer = window.setTimeout(function () {
+            autoRotateResumeTimer = null;
+            if (!document.hidden) controls.autoRotate = true;
+          }, 2000);
+        }
+        controls.addEventListener("start", function () {
+          pauseAutoRotateForInteraction();
         });
+        controls.addEventListener("end", resumeAutoRotateAfterIdle);
+        renderer.domElement.addEventListener(
+          "pointerdown",
+          pauseAutoRotateForInteraction,
+          { passive: true },
+        );
+        renderer.domElement.addEventListener(
+          "wheel",
+          function () {
+            pauseAutoRotateForInteraction();
+            resumeAutoRotateAfterIdle();
+          },
+          { passive: true },
+        );
 
         scene.add(new THREE.HemisphereLight(0xb8c9e2, 0x514b5b, 1.7));
         scene.add(new THREE.AmbientLight(0x9aa3bb, 0.66));
@@ -2172,21 +2442,33 @@
           return 21.5 * clamp(1.5 / aspect, 1, 2.8);
         }
         function resetView() {
+          if (autoRotateResumeTimer !== null) {
+            window.clearTimeout(autoRotateResumeTimer);
+            autoRotateResumeTimer = null;
+          }
+          controls.autoRotate = !reduce;
           var d = fitDist(camera.aspect),
             k = d / 12.8;
+          camera.zoom = 1;
+          bloomZoomTarget = 1;
+          bloomZoomReleaseStart = 0;
+          camera.updateProjectionMatrix();
           camera.position.set(0, 2 + 1.4 * k, d);
+          controls.maxDistance = Math.max(70, d * 1.7);
           controls.target.set(0, 2, 0);
           controls.update();
         }
 
         /* ---------- water and pads ---------- */
         var water = new THREE.Mesh(
-          new THREE.PlaneGeometry(2000, 2000, 256, 256),
+          new THREE.PlaneGeometry(2000, 2000, 128, 128),
           new THREE.ShaderMaterial({
             uniforms: {
               uTime: { value: 0 },
               uBase: { value: new THREE.Color(PALETTES.pink.bg) },
               uShine: { value: new THREE.Color(PALETTES.pink.glow) },
+              uBloomLight: { value: 0 },
+              uMobileFill: { value: 0 },
               uMoonCamera: { value: new THREE.Vector2(0, 12.8) },
               uCameraPosition: { value: camera.position.clone() },
               uMoonDirection: { value: new THREE.Vector3(0, 0, -1) },
@@ -2198,52 +2480,72 @@
               "float crossPhase=p.y*0.24-p.x*0.08+sin(p.x*0.14-t*0.07)*0.6+sin(p.x*0.28-p.y*0.12+t*0.06)*0.2-t*0.08;" +
               "float detailPhase=(p.x+p.y)*0.28+sin(p.x*0.2-p.y*0.16+t*0.06)*0.3-t*0.16;" +
               "float eddyPhase=p.x*0.22-p.y*0.17+sin((p.x+p.y)*0.1+t*0.08)*0.35-t*0.14;" +
-              "return sin(swellPhase)*0.24+sin(crossPhase)*0.12+sin(detailPhase)*0.025+sin(eddyPhase)*0.035;}" +
+              "float broadPhase=p.x*0.08-p.y*0.13+t*0.045;" +
+              "return sin(swellPhase)*0.24+sin(crossPhase)*0.12+sin(detailPhase)*0.025+sin(eddyPhase)*0.035+sin(broadPhase)*0.055;}" +
               "void main(){ vec4 worldPosition = modelMatrix * vec4(position, 1.0); vec2 p = worldPosition.xz;" +
               "vWaveHeight=surfaceHeight(p,uTime);" +
               "worldPosition.y += vWaveHeight;" +
               "vWorldPosition = worldPosition.xyz;" +
               "gl_Position = projectionMatrix * viewMatrix * worldPosition; }",
             fragmentShader:
-              "uniform float uTime; uniform vec2 uMoonCamera; uniform vec3 uBase; uniform vec3 uShine; uniform vec3 uCameraPosition; uniform vec3 uMoonDirection; varying vec3 vWorldPosition; varying float vWaveHeight;" +
+              "uniform float uTime; uniform float uBloomLight; uniform float uMobileFill; uniform vec2 uMoonCamera; uniform vec3 uBase; uniform vec3 uShine; uniform vec3 uCameraPosition; uniform vec3 uMoonDirection; varying vec3 vWorldPosition; varying float vWaveHeight;" +
               "float surfaceHeight(vec2 p,float t){" +
               "float swellPhase=p.x*0.16+sin(p.y*0.16+t*0.07)*0.75+sin(p.x*0.06+p.y*0.22-t*0.04)*0.3+t*0.1;" +
               "float crossPhase=p.y*0.24-p.x*0.08+sin(p.x*0.14-t*0.07)*0.6+sin(p.x*0.28-p.y*0.12+t*0.06)*0.2-t*0.08;" +
               "float detailPhase=(p.x+p.y)*0.28+sin(p.x*0.2-p.y*0.16+t*0.06)*0.3-t*0.16;" +
               "float eddyPhase=p.x*0.22-p.y*0.17+sin((p.x+p.y)*0.1+t*0.08)*0.35-t*0.14;" +
-              "return sin(swellPhase)*0.24+sin(crossPhase)*0.12+sin(detailPhase)*0.025+sin(eddyPhase)*0.035;}" +
+              "float broadPhase=p.x*0.08-p.y*0.13+t*0.045;" +
+              "return sin(swellPhase)*0.24+sin(crossPhase)*0.12+sin(detailPhase)*0.025+sin(eddyPhase)*0.035+sin(broadPhase)*0.055;}" +
               "void main(){ vec2 p = vWorldPosition.xz;" +
               "float wavePattern=0.5+vWaveHeight*1.5;" +
               "float microPhaseA=p.x*0.92+p.y*0.43+uTime*0.22;" +
               "float microPhaseB=p.y*0.71-p.x*0.29-uTime*0.17;" +
+              "float microPhaseC=p.x*1.18-p.y*0.86+sin(p.x*0.24+p.y*0.31+uTime*0.09)*0.55-uTime*0.13;" +
               "float waveStep=0.22;" +
-              "float waveDx=(surfaceHeight(p+vec2(waveStep,0.0),uTime)-surfaceHeight(p-vec2(waveStep,0.0),uTime))/(2.0*waveStep)+0.0034*cos(microPhaseA)*0.92+0.0022*cos(microPhaseB)*-0.29;" +
-              "float waveDz=(surfaceHeight(p+vec2(0.0,waveStep),uTime)-surfaceHeight(p-vec2(0.0,waveStep),uTime))/(2.0*waveStep)+0.0034*cos(microPhaseA)*0.43+0.0022*cos(microPhaseB)*0.71;" +
+              "float waveDx=(surfaceHeight(p+vec2(waveStep,0.0),uTime)-surfaceHeight(p-vec2(waveStep,0.0),uTime))/(2.0*waveStep)+0.0034*cos(microPhaseA)*0.92+0.0022*cos(microPhaseB)*-0.29+0.0012*cos(microPhaseC)*1.18;" +
+              "float waveDz=(surfaceHeight(p+vec2(0.0,waveStep),uTime)-surfaceHeight(p-vec2(0.0,waveStep),uTime))/(2.0*waveStep)+0.0034*cos(microPhaseA)*0.43+0.0022*cos(microPhaseB)*0.71-0.0012*cos(microPhaseC)*0.86;" +
               "vec3 waterNormal=normalize(vec3(-waveDx*9.0,1.0,-waveDz*9.0));" +
               "vec3 viewDirection=normalize(uCameraPosition-vWorldPosition);" +
               "vec3 waterColor=mix(uBase,uShine,0.07+wavePattern*0.08);" +
-              "waterColor+=vec3(0.024,0.035,0.078)*(0.72+wavePattern*0.28);" +
+              "waterColor+=vec3(0.038,0.052,0.095)*(0.72+wavePattern*0.28);" +
               "float lotusDistance=length(p);" +
+              "waterColor+=vec3(0.085,0.13,0.23)*exp(-pow(lotusDistance/12.5,2.0))*uBloomLight;" +
               "float lotusReflection=exp(-pow(lotusDistance/5.2,2.0));" +
-              "waterColor+=vec3(0.075,0.018,0.045)*lotusReflection*0.42;" +
+              "waterColor+=vec3(0.095,0.028,0.065)*lotusReflection*0.52;" +
+              "float rippleWarp=0.18*sin(p.x*0.48+p.y*0.33+uTime*0.11)+0.1*sin(p.y*0.61-p.x*0.27-uTime*0.08);" +
+              "float ripplePhase=(lotusDistance+rippleWarp)*3.15-uTime*0.82;" +
+              "float lotusRipple=pow(max(0.0,sin(ripplePhase)),6.0);" +
+              "float rippleEnvelope=exp(-lotusDistance*0.13)*smoothstep(0.8,2.0,lotusDistance);" +
+              "float rippleVariation=0.52+0.48*(0.5+0.5*sin(p.x*0.74-p.y*0.56+uTime*0.1));" +
+              "waterColor+=vec3(0.12,0.2,0.26)*lotusRipple*rippleEnvelope*rippleVariation*(0.18+uBloomLight*0.22);" +
+              "float causticA=sin(p.x*0.48+uTime*0.12+sin(p.y*0.32-uTime*0.09)*1.2+sin(p.x*0.18+p.y*0.2)*0.3);" +
+              "float causticB=sin(p.y*0.54-uTime*0.1+sin(p.x*0.3+uTime*0.07)*1.1+sin(p.y*0.22-p.x*0.16)*0.25);" +
+              "float causticPattern=pow(max(0.0,causticA*causticB),3.0);" +
+              "float causticFade=exp(-pow((p.y+5.0)/22.0,2.0));" +
+              "waterColor+=vec3(0.05,0.16,0.15)*causticPattern*causticFade*0.34;" +
               "float auroraReflection=exp(-pow((p.y+7.0)/5.5,2.0))*exp(-pow(p.x/22.0,2.0));" +
               "waterColor+=vec3(0.035,0.14,0.11)*auroraReflection*0.68;" +
-              "float moonPath=exp(-pow((p.x-uMoonCamera.x*0.12)/3.8,2.0))*exp(-max(0.0,p.y+1.5)*0.018);" +
-              "float moonBands=0.94+0.06*wavePattern;" +
+              "float moonPathWarp=0.32*sin(p.y*0.26+uTime*0.08)+0.16*sin(p.y*0.58-uTime*0.13)+0.11*sin(p.x*0.19+p.y*0.33+uTime*0.11);" +
+              "float moonPath=exp(-pow((p.x-uMoonCamera.x*0.12+moonPathWarp)/3.8,2.0))*exp(-max(0.0,p.y+1.5)*0.018);" +
+              "float reflectionNoise=0.5+0.5*sin(p.x*2.7+sin(p.y*0.58+uTime*0.16)*1.25+0.35*sin(p.x*0.52-p.y*0.33+uTime*0.1)+0.18*sin(p.y*1.37+p.x*0.72-uTime*0.14));" +
+              "float reflectionBreakup=0.62+0.38*reflectionNoise;" +
+              "float moonBands=(0.68+0.32*wavePattern)*reflectionBreakup;" +
               "vec3 halfDirection=normalize(viewDirection+normalize(uMoonDirection));" +
               "float moonSpecular=pow(max(dot(waterNormal,halfDirection),0.0),72.0);" +
               "float moonGlow=pow(max(dot(waterNormal,halfDirection),0.0),15.0);" +
-              "waterColor+=vec3(0.9,0.88,0.82)*moonPath*moonBands*(moonSpecular*0.9+moonGlow*0.08);" +
+              "waterColor+=vec3(0.9,0.88,0.82)*moonPath*moonBands*(moonSpecular*0.82+moonGlow*0.14)*(1.0+uBloomLight*0.4);" +
               "float brokenRipple=pow(max(0.0,sin(p.x*1.32+p.y*0.48+uTime*0.16+sin(p.y*0.62-uTime*0.09)*0.5)),10.0);" +
               "float rippleFalloff=exp(-pow((p.x-uMoonCamera.x*0.12)/6.2,2.0))*exp(-max(0.0,p.y-1.0)*0.035);" +
               "waterColor+=vec3(0.16,0.2,0.26)*brokenRipple*rippleFalloff*(0.008+moonPath*0.03);" +
               "float surfaceGlints=pow(max(0.0,sin(microPhaseA*2.1+sin(microPhaseB*1.4)*0.55)),12.0);" +
-              "float glintBreaks=0.45+0.55*(0.5+0.5*sin(p.x*0.22+p.y*0.61+uTime*0.08));" +
-              "waterColor+=vec3(0.07,0.1,0.14)*surfaceGlints*glintBreaks*0.06;" +
+              "float glintBreaks=0.3+0.7*(0.5+0.5*sin(p.x*0.22+p.y*0.61+uTime*0.08+0.12*sin(p.x*0.41-p.y*0.28)));" +
+              "waterColor+=vec3(0.09,0.13,0.18)*surfaceGlints*glintBreaks*0.1;" +
               "float fresnel=pow(1.0-max(dot(waterNormal,viewDirection),0.0),4.0);" +
-              "waterColor=mix(waterColor,vec3(0.045,0.075,0.13),fresnel*0.3);" +
+              "waterColor=mix(waterColor,vec3(0.06,0.09,0.16),fresnel*0.3);" +
               "float distanceHaze=smoothstep(8.0,58.0,length(p-uMoonCamera));" +
-              "waterColor=mix(waterColor,vec3(0.066,0.082,0.13),distanceHaze*0.82);" +
+              "waterColor=mix(waterColor,vec3(0.085,0.105,0.17),distanceHaze*0.72);" +
+              "float moonLitArea=0.35+0.65*exp(-pow(lotusDistance/22.0,2.0));" +
+              "waterColor+=vec3(0.11,0.13,0.19)*moonLitArea*uMobileFill;" +
               "gl_FragColor = vec4(waterColor, 0.92); }",
             transparent: true,
             depthWrite: false,
@@ -2551,7 +2853,11 @@
         var pondLightRandom = seeded(1907);
         var pondLightPositions = [];
         var pondLightTransform = new THREE.Object3D();
-        for (var pondLightIndex = 0; pondLightIndex < pondLightCount; pondLightIndex++) {
+        for (
+          var pondLightIndex = 0;
+          pondLightIndex < pondLightCount;
+          pondLightIndex++
+        ) {
           var ringIndex = pondLightIndex % 3;
           var ringSlot = Math.floor(pondLightIndex / 3);
           var ringSizes = [4.1, 12.8, 16.7];
@@ -2621,17 +2927,12 @@
           var lineSegments = 96;
           for (var lineSegment = 0; lineSegment < lineSegments; lineSegment++) {
             var a =
-              (lineSegment / lineSegments) * Math.PI * 2 +
-              lineRing * 0.43;
+              (lineSegment / lineSegments) * Math.PI * 2 + lineRing * 0.43;
             var b =
               ((lineSegment + 1) / lineSegments) * Math.PI * 2 +
               lineRing * 0.43;
-            var rippleA =
-              0.038 +
-              Math.sin(a * 5 + lineRing) * 0.012;
-            var rippleB =
-              0.038 +
-              Math.sin(b * 5 + lineRing) * 0.012;
+            var rippleA = 0.038 + Math.sin(a * 5 + lineRing) * 0.012;
+            var rippleB = 0.038 + Math.sin(b * 5 + lineRing) * 0.012;
             pondLightLinePositions.push(
               Math.cos(a) * lineRadius,
               rippleA,
@@ -2689,8 +2990,7 @@
                 Math.sin(previousPoint * 0.7 + constellation) * 0.018;
               var previousRadius =
                 innerRadius +
-                (outerRadius - innerRadius) *
-                  Math.pow(previousFraction, 0.92);
+                (outerRadius - innerRadius) * Math.pow(previousFraction, 0.92);
               var previousWave =
                 Math.sin(previousPoint * 1.7 + constellation * 1.3) *
                 (0.08 + previousPoint * 0.012);
@@ -2746,7 +3046,11 @@
         );
         var pondPetalPositions = [];
         var pondPetalRandom = seeded(7712);
-        for (var petalLightIndex = 0; petalLightIndex < pondPetalLightCount; petalLightIndex++) {
+        for (
+          var petalLightIndex = 0;
+          petalLightIndex < pondPetalLightCount;
+          petalLightIndex++
+        ) {
           var petalPosition =
             petalLightIndex % 2 === 0
               ? 7.15 + pondPetalRandom() * 0.9
@@ -3053,13 +3357,9 @@
               );
               if (centerPollen) {
                 centerPollen.rotation.set(
-                  reduce
-                    ? 0
-                    : Math.sin(motionTime * 0.24 + delayOff) * 0.018,
+                  reduce ? 0 : Math.sin(motionTime * 0.24 + delayOff) * 0.018,
                   reduce ? 0 : Math.sin(motionTime * 0.18 + delayOff) * 0.04,
-                  reduce
-                    ? 0
-                    : Math.cos(motionTime * 0.21 + delayOff) * 0.014,
+                  reduce ? 0 : Math.cos(motionTime * 0.21 + delayOff) * 0.014,
                 );
               }
               if (centerGlow) {
@@ -3078,11 +3378,8 @@
                 var baseRadius = 0.02 + layerIndex * 0.02;
                 for (var i = 0; i < layer.petals.length; i++) {
                   var petal = layer.petals[i],
-                    k = easeInOut(
-                      clamp((q - petal.delay) / 0.64, 0, 1),
-                    );
-                  var petalPhase =
-                    delayOff * 7 + i * 0.53 + layerIndex * 0.8;
+                    k = easeInOut(clamp((q - petal.delay) / 0.64, 0, 1));
+                  var petalPhase = delayOff * 7 + i * 0.53 + layerIndex * 0.8;
                   var petalBreeze = reduce
                     ? 0
                     : (Math.sin(motionTime * 0.36 + petalPhase) * 0.055 +
@@ -3141,6 +3438,28 @@
           "Your smile",
           "A playful moment",
         ];
+        var FRAME_CAPTIONS = [
+          "I like you because you make ordinary moments feel magical.",
+          "Your smile feels like my favorite kind of sunshine.",
+          "I like how being with you makes everything feel lighter.",
+          "You make my heart feel safe and happy.",
+          "I like you because you are beautifully, completely you.",
+          "Even your little habits make me smile.",
+          "You make the world feel softer and sweeter.",
+          "I like the way you understand me without many words.",
+          "Your kindness is one of my favorite things about you.",
+          "I like you because you turn simple days into memories.",
+          "You feel like peace after a long day.",
+          "I like how you make me laugh when I need it most.",
+          "You are my favorite reason to smile.",
+          "I like you because your heart is so lovely.",
+          "With you, even silence feels special.",
+          "You make me want to be a better version of myself.",
+          "I like you more in every little moment we share.",
+          "You are the sweetest part of my day.",
+          "I like you because you make love feel easy.",
+          "No matter how many flowers bloom, you will always be my favorite.",
+        ];
         var FRAME_HUES = [
           340, 215, 265, 20, 330, 190, 205, 325, 25, 280, 350, 195, 45, 305,
           155, 260, 35, 195, 320, 215,
@@ -3157,10 +3476,8 @@
             duration: 2.1 + (variant % 4) * 0.18,
             revealDuration: 1.5 + (variant % 3) * 0.2,
             viewerDuration: 4800 + (variant % 4) * 300,
-            fineVertical:
-              direction === 0 || direction === 2 || direction === 4,
-            washVertical:
-              direction === 1 || direction === 2 || direction === 5,
+            fineVertical: direction === 0 || direction === 2 || direction === 4,
+            washVertical: direction === 1 || direction === 2 || direction === 5,
             fineStrokeCount: 8 + (variant % 3) * 2,
             washStrokeCount: 5 + ((variant + 1) % 3),
           };
@@ -3185,10 +3502,8 @@
           var sinPitch = Math.sin(frameCameraPitch);
           var cosPitch = Math.cos(frameCameraPitch);
           var cameraY = 2 + (1.4 * view.distance) / 12.8;
-          var depth =
-            sinPitch * (cameraY - y) + cosPitch * (view.distance - z);
-          var up =
-            cosPitch * (y - cameraY) + sinPitch * (view.distance - z);
+          var depth = sinPitch * (cameraY - y) + cosPitch * (view.distance - z);
+          var up = cosPitch * (y - cameraY) + sinPitch * (view.distance - z);
           return {
             x: x / (depth * frameTanHalfFov * view.aspect),
             y: up / (depth * frameTanHalfFov),
@@ -3213,36 +3528,35 @@
             var accepted = false;
             for (var attempt = 0; attempt < 4000 && !accepted; attempt++) {
               var angle = targetAngle + (layoutRandom() - 0.5) * 0.5;
-              var radius =
-                (ring ? 10.2 : 6.5) + (layoutRandom() - 0.5) * 0.35;
+              var radius = (ring ? 10.2 : 6.5) + (layoutRandom() - 0.5) * 0.35;
               var x = Math.cos(angle) * radius;
               var z = Math.sin(angle) * radius;
               var y =
-                z > 0
-                  ? 3.2 + layoutRandom() * 4.2
-                  : 2.0 + layoutRandom() * 5.4;
+                z > 0 ? 3.2 + layoutRandom() * 4.2 : 2.0 + layoutRandom() * 5.4;
               var bounds = FRAME_LAYOUT_VIEWS.map(function (view) {
                 return frameLayoutBounds(x, y, z, size, view);
               });
-              var overlapsCenter = bounds.some(function (frameBounds, viewIndex) {
-                var view = FRAME_LAYOUT_VIEWS[viewIndex];
-                var centerBounds = frameLayoutBounds(
-                  0,
-                  1.8,
-                  0,
-                  { w: 0, h: 0 },
-                  view,
-                );
-                centerBounds.halfWidth =
-                  1.5 / (centerBounds.depth * frameTanHalfFov * view.aspect);
-                centerBounds.halfHeight =
-                  1.1 / (centerBounds.depth * frameTanHalfFov);
-                return (
-                  Math.abs(frameBounds.x) + frameBounds.halfWidth > 0.91 ||
-                  Math.abs(frameBounds.y) + frameBounds.halfHeight > 0.92 ||
-                  layoutBoundsOverlap(frameBounds, centerBounds)
-                );
-              });
+              var overlapsCenter = bounds.some(
+                function (frameBounds, viewIndex) {
+                  var view = FRAME_LAYOUT_VIEWS[viewIndex];
+                  var centerBounds = frameLayoutBounds(
+                    0,
+                    1.8,
+                    0,
+                    { w: 0, h: 0 },
+                    view,
+                  );
+                  centerBounds.halfWidth =
+                    1.5 / (centerBounds.depth * frameTanHalfFov * view.aspect);
+                  centerBounds.halfHeight =
+                    1.1 / (centerBounds.depth * frameTanHalfFov);
+                  return (
+                    Math.abs(frameBounds.x) + frameBounds.halfWidth > 0.91 ||
+                    Math.abs(frameBounds.y) + frameBounds.halfHeight > 0.92 ||
+                    layoutBoundsOverlap(frameBounds, centerBounds)
+                  );
+                },
+              );
               if (overlapsCenter) continue;
               var overlapsFrame = placedFrameLayouts.some(function (placed) {
                 if (Math.hypot(x - placed.x, z - placed.z) < 2.2) return true;
@@ -3277,6 +3591,7 @@
             h: size.h,
             hue: FRAME_HUES[index],
             title: FRAME_TITLES[index],
+            caption: FRAME_CAPTIONS[index],
             tiltX: (frameRandom() - 0.5) * 0.12,
             tiltZ: (frameRandom() - 0.5) * 0.12,
             flowerSize: 0.3 + frameRandom() * 0.15,
@@ -3297,8 +3612,7 @@
               heartRadius = 5.5 + heartPadRandom() * 9.2;
             heartX = Math.cos(heartAngle) * heartRadius;
             heartZ = Math.sin(heartAngle) * heartRadius;
-            var overlapsCenterPad =
-              Math.hypot(heartX, heartZ - 3.8) < 2.4;
+            var overlapsCenterPad = Math.hypot(heartX, heartZ - 3.8) < 2.4;
             var overlapsFrame = FRAMES.some(function (frame) {
               return Math.hypot(heartX - frame.x, heartZ - frame.z) < 1.8;
             });
@@ -3330,7 +3644,7 @@
 
         function drawFramePlaceholder(frame) {
           var canvas = frame.canvas,
-            context = canvas.getContext("2d");
+            context = canvas.getContext("2d", { willReadFrequently: true });
           var gradient = context.createLinearGradient(
             0,
             0,
@@ -3364,13 +3678,31 @@
             canvas.height * 0.89,
           );
           context.beginPath();
-          context.arc(canvas.width * 0.5, canvas.height * 0.34, fontSize * 0.82, 0, Math.PI * 2);
+          context.arc(
+            canvas.width * 0.5,
+            canvas.height * 0.34,
+            fontSize * 0.82,
+            0,
+            Math.PI * 2,
+          );
           context.stroke();
           context.beginPath();
-          context.moveTo(canvas.width * 0.5 - fontSize * 0.28, canvas.height * 0.34);
-          context.lineTo(canvas.width * 0.5 + fontSize * 0.28, canvas.height * 0.34);
-          context.moveTo(canvas.width * 0.5, canvas.height * 0.34 - fontSize * 0.28);
-          context.lineTo(canvas.width * 0.5, canvas.height * 0.34 + fontSize * 0.28);
+          context.moveTo(
+            canvas.width * 0.5 - fontSize * 0.28,
+            canvas.height * 0.34,
+          );
+          context.lineTo(
+            canvas.width * 0.5 + fontSize * 0.28,
+            canvas.height * 0.34,
+          );
+          context.moveTo(
+            canvas.width * 0.5,
+            canvas.height * 0.34 - fontSize * 0.28,
+          );
+          context.lineTo(
+            canvas.width * 0.5,
+            canvas.height * 0.34 + fontSize * 0.28,
+          );
           context.stroke();
           context.restore();
           context.textAlign = "center";
@@ -3398,8 +3730,8 @@
 
         FRAMES.forEach(function (frame) {
           var canvas = document.createElement("canvas");
-          canvas.width = Math.round(frame.w * 320);
-          canvas.height = Math.round(frame.h * 320);
+          canvas.width = Math.round(frame.w * 256);
+          canvas.height = Math.round(frame.h * 256);
           frame.canvas = canvas;
           frame.tex = new THREE.CanvasTexture(canvas);
           frame.tex.encoding = THREE.sRGBEncoding;
@@ -3415,12 +3747,9 @@
         function drawPhotoSketch(frame, foregroundData) {
           var width = frame.canvas.width,
             height = frame.canvas.height,
-            source = frame.canvas.getContext("2d").getImageData(
-              0,
-              0,
-              width,
-              height,
-            ).data,
+            source = frame.canvas
+              .getContext("2d")
+              .getImageData(0, 0, width, height).data,
             luminance = new Float32Array(width * height),
             sketchSourceCanvas = document.createElement("canvas");
           sketchSourceCanvas.width = width;
@@ -3788,9 +4117,7 @@
             frame.backdropCanvas = document.createElement("canvas");
             frame.backdropCanvas.width = canvas.width;
             frame.backdropCanvas.height = canvas.height;
-            frame.backdropCanvas
-              .getContext("2d")
-              .drawImage(canvas, 0, 0);
+            frame.backdropCanvas.getContext("2d").drawImage(canvas, 0, 0);
           }
           var photoGamma = 0.55;
           if (!backgroundRemoved) {
@@ -3799,12 +4126,7 @@
             sampleCanvas.height = 32;
             var sampleContext = sampleCanvas.getContext("2d");
             sampleContext.drawImage(image, 0, 0, 32, 32);
-            var samplePixels = sampleContext.getImageData(
-              0,
-              0,
-              32,
-              32,
-            ).data;
+            var samplePixels = sampleContext.getImageData(0, 0, 32, 32).data;
             var luminanceTotal = 0,
               luminanceWeight = 0;
             for (
@@ -3835,14 +4157,8 @@
           context.save();
           context.filter = backgroundRemoved
             ? "brightness(1.52) contrast(1.08) saturate(1.12)"
-            : "contrast(1.02) saturate(1.08)";
-          context.drawImage(
-            image,
-            photoX,
-            photoY,
-            width,
-            height,
-          );
+            : "brightness(1.06) contrast(1.02) saturate(1.08)";
+          context.drawImage(image, photoX, photoY, width, height);
           context.restore();
           if (!backgroundRemoved && photoGamma < 1) {
             var photoLeft = Math.max(0, Math.floor(photoX)),
@@ -3862,7 +4178,11 @@
                 photoHeight,
               ),
               photoPixelData = photoPixels.data;
-            for (var photoPixelIndex = 0; photoPixelIndex < photoPixelData.length; photoPixelIndex += 4) {
+            for (
+              var photoPixelIndex = 0;
+              photoPixelIndex < photoPixelData.length;
+              photoPixelIndex += 4
+            ) {
               for (var channel = 0; channel < 3; channel++) {
                 var normalized = Math.pow(
                   photoPixelData[photoPixelIndex + channel] / 255,
@@ -3878,12 +4198,7 @@
           if (!backgroundRemoved) {
             context.strokeStyle = "rgba(242, 211, 159, 0.72)";
             context.lineWidth = Math.max(2, canvas.width * 0.006);
-            context.strokeRect(
-              photoX,
-              photoY,
-              width,
-              height,
-            );
+            context.strokeRect(photoX, photoY, width, height);
           }
           var sketchInset = backgroundRemoved
             ? 1
@@ -3914,9 +4229,7 @@
           frame.photoCanvas = document.createElement("canvas");
           frame.photoCanvas.width = canvas.width;
           frame.photoCanvas.height = canvas.height;
-          frame.photoCanvas
-            .getContext("2d")
-            .drawImage(canvas, 0, 0);
+          frame.photoCanvas.getContext("2d").drawImage(canvas, 0, 0);
           frame.traceSketch = !reduce;
           frame.photoTraceStart = reduce ? null : performance.now();
           if (!frame.traceSketch) {
@@ -3961,7 +4274,12 @@
 
         var replacementPortrait = new Image();
         replacementPortrait.onload = function () {
-          drawPhotoOnFrame(FRAMES[0], replacementPortrait, "img/gallery-photo-02.png", false);
+          drawPhotoOnFrame(
+            FRAMES[0],
+            replacementPortrait,
+            "img/gallery-photo-02.png",
+            false,
+          );
         };
         replacementPortrait.onerror = function () {
           console.error("Unable to load the replacement first pond photo.");
@@ -3970,7 +4288,12 @@
 
         var secondReplacementPortrait = new Image();
         secondReplacementPortrait.onload = function () {
-          drawPhotoOnFrame(FRAMES[1], secondReplacementPortrait, "img/gallery-photo-03.png", false);
+          drawPhotoOnFrame(
+            FRAMES[1],
+            secondReplacementPortrait,
+            "img/gallery-photo-03.png",
+            false,
+          );
         };
         secondReplacementPortrait.onerror = function () {
           console.error("Unable to load the replacement second pond photo.");
@@ -4279,20 +4602,22 @@
                 frame: frame,
                 angle: frame.flowerYaw + 1.1,
                 scale: 1,
+                phase: frame.flowerPhase + 0.7,
               });
             if (index % 4 === 0)
               pads.push({
                 frame: frame,
                 angle: frame.flowerYaw - 1.5,
                 scale: 0.72,
+                phase: frame.flowerPhase + 2.1,
               });
           });
           var padMesh = new THREE.InstancedMesh(
             new THREE.CircleGeometry(0.34, 24),
             new THREE.MeshStandardMaterial({
-              color: 0x48664a,
-              emissive: 0x0b130a,
-              emissiveIntensity: 0.2,
+              color: 0x537550,
+              emissive: 0x142414,
+              emissiveIntensity: 0.24,
               roughness: 0.82,
               side: THREE.DoubleSide,
               transparent: true,
@@ -4300,6 +4625,27 @@
             }),
             pads.length,
           );
+          var padRippleMesh = new THREE.InstancedMesh(
+            new THREE.RingGeometry(
+              0.39,
+              0.44,
+              48,
+              1,
+              0.35,
+              Math.PI * 1.72,
+            ),
+            new THREE.MeshBasicMaterial({
+              color: 0xa9d2cc,
+              transparent: true,
+              opacity: 0.12,
+              depthWrite: false,
+              side: THREE.DoubleSide,
+            }),
+            pads.length,
+          );
+          padRippleMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+          padRippleMesh.frustumCulled = false;
+          padRippleMesh.renderOrder = 5.85;
           var padVeinSegments = [
             [0, -0.12, 0.025, 0, 0.27, 0.025],
             [0, 0.01, 0.025, -0.13, 0.09, 0.025],
@@ -4348,6 +4694,7 @@
             shadowMesh,
             stemMesh,
             padMesh,
+            padRippleMesh,
             padVeinMesh,
           );
 
@@ -4405,13 +4752,7 @@
                 var layer = layers[layerIndex];
                 for (var petal = 0; petal < layer.petals.length; petal++) {
                   var detail = layer.petals[petal],
-                    k = easeInOut(
-                      clamp(
-                        (p - detail.delay) / 0.2,
-                        0,
-                        1,
-                      ),
-                    );
+                    k = easeInOut(clamp((p - detail.delay) / 0.2, 0, 1));
                   var petalPhase =
                     frame.flowerPhase + petal * 0.53 + layerIndex * 0.8;
                   var breeze = reduce
@@ -4463,8 +4804,7 @@
               for (var stamen = 0; stamen < pollenPerFlower; stamen++) {
                 var stamenAngle = stamen * 2.399963229728653,
                   stamenRadius =
-                    0.13 +
-                    Math.sqrt((stamen + 0.5) / pollenPerFlower) * 0.1,
+                    0.13 + Math.sqrt((stamen + 0.5) / pollenPerFlower) * 0.1,
                   stamenX = Math.cos(stamenAngle) * stamenRadius,
                   stamenZ = Math.sin(stamenAngle) * stamenRadius,
                   pollenIndex = frameIndex * pollenPerFlower + stamen;
@@ -4472,11 +4812,7 @@
                   ? 0
                   : Math.sin(time * 1.2 + frame.flowerPhase + stamen * 1.3);
                 var pollenReveal = 0.22 + coreReveal * 0.78;
-                dummy.position.set(
-                  stamenX,
-                  0.29 + coreReveal * 0.03,
-                  stamenZ,
-                );
+                dummy.position.set(stamenX, 0.29 + coreReveal * 0.03, stamenZ);
                 dummy.rotation.set(0, 0, 0);
                 dummy.scale.set(1, pollenReveal, 1);
                 dummy.updateMatrix();
@@ -4611,8 +4947,25 @@
                     elements[14];
                 }
               }
+              var ripplePulse = reduce
+                ? 0.5
+                : 0.5 + 0.5 * Math.sin(time * 0.46 + pad.phase);
+              dummy.position.set(
+                frame.x + Math.cos(pad.angle) * radius,
+                0.03,
+                frame.z + Math.sin(pad.angle) * radius,
+              );
+              dummy.rotation.set(-Math.PI / 2, pad.angle, 0);
+              dummy.scale.setScalar(
+                frame.flowerSize *
+                  pad.scale *
+                  (1.12 + ripplePulse * 0.12),
+              );
+              dummy.updateMatrix();
+              padRippleMesh.setMatrixAt(index, dummy.matrix);
             });
             padMesh.instanceMatrix.needsUpdate = true;
+            padRippleMesh.instanceMatrix.needsUpdate = true;
             padVeinGeometry.attributes.position.needsUpdate = true;
           }
 
@@ -4654,6 +5007,175 @@
           frameShadowMesh.renderOrder = -0.5;
           world.add(frameShadowMesh);
           FRAMES.forEach(function (frame, index) {
+            if (!frame.captionTexture) {
+              var captionCanvas = document.createElement("canvas");
+              captionCanvas.width = 512;
+              captionCanvas.height = 256;
+              var captionContext = captionCanvas.getContext("2d");
+              var captionInset = 10,
+                captionRadius = 20;
+              function traceCaptionPanel(inset, radius) {
+                captionContext.beginPath();
+                captionContext.moveTo(inset + radius, inset);
+                captionContext.lineTo(
+                  captionCanvas.width - inset - radius,
+                  inset,
+                );
+                captionContext.arcTo(
+                  captionCanvas.width - inset,
+                  inset,
+                  captionCanvas.width - inset,
+                  inset + radius,
+                  radius,
+                );
+                captionContext.lineTo(
+                  captionCanvas.width - inset,
+                  captionCanvas.height - inset - radius,
+                );
+                captionContext.arcTo(
+                  captionCanvas.width - inset,
+                  captionCanvas.height - inset,
+                  captionCanvas.width - inset - radius,
+                  captionCanvas.height - inset,
+                  radius,
+                );
+                captionContext.lineTo(
+                  inset + radius,
+                  captionCanvas.height - inset,
+                );
+                captionContext.arcTo(
+                  inset,
+                  captionCanvas.height - inset,
+                  inset,
+                  captionCanvas.height - inset - radius,
+                  radius,
+                );
+                captionContext.lineTo(inset, inset + radius);
+                captionContext.arcTo(
+                  inset,
+                  inset,
+                  inset + radius,
+                  inset,
+                  radius,
+                );
+                captionContext.closePath();
+              }
+              var captionGradient = captionContext.createLinearGradient(
+                0,
+                0,
+                0,
+                captionCanvas.height,
+              );
+              captionGradient.addColorStop(0, "#62405a");
+              captionGradient.addColorStop(0.48, "#352c4c");
+              captionGradient.addColorStop(1, "#202d46");
+              captionContext.shadowColor = "rgba(0, 0, 0, 0.68)";
+              captionContext.shadowBlur = 12;
+              captionContext.shadowOffsetY = 6;
+              traceCaptionPanel(captionInset, captionRadius);
+              captionContext.fillStyle = captionGradient;
+              captionContext.fill();
+              captionContext.shadowColor = "rgba(255, 213, 150, 0.52)";
+              captionContext.shadowBlur = 10;
+              captionContext.shadowOffsetY = 0;
+              captionContext.strokeStyle = "#f4d7a6";
+              captionContext.lineWidth = 2;
+              captionContext.stroke();
+              captionContext.shadowColor = "transparent";
+              captionContext.shadowBlur = 0;
+              captionContext.strokeStyle = "rgba(255, 239, 211, 0.24)";
+              captionContext.lineWidth = 1;
+              traceCaptionPanel(18, 14);
+              captionContext.stroke();
+              captionContext.strokeStyle = "rgba(255, 220, 166, 0.72)";
+              captionContext.beginPath();
+              captionContext.moveTo(50, 50);
+              captionContext.lineTo(220, 50);
+              captionContext.moveTo(292, 50);
+              captionContext.lineTo(462, 50);
+              captionContext.moveTo(50, 226);
+              captionContext.lineTo(178, 226);
+              captionContext.moveTo(334, 226);
+              captionContext.lineTo(462, 226);
+              captionContext.stroke();
+              captionContext.fillStyle = "#ffe4b2";
+              captionContext.beginPath();
+              captionContext.moveTo(256, 44);
+              captionContext.lineTo(262, 50);
+              captionContext.lineTo(256, 56);
+              captionContext.lineTo(250, 50);
+              captionContext.closePath();
+              captionContext.fill();
+              captionContext.shadowBlur = 0;
+              captionContext.font = '600 15px "Inter", sans-serif';
+              captionContext.textAlign = "center";
+              captionContext.textBaseline = "middle";
+              captionContext.fillStyle = "#f6d5a5";
+              captionContext.fillText("A LITTLE NOTE", 256, 29);
+              captionContext.shadowColor = "rgba(255, 229, 188, 0.18)";
+              captionContext.shadowBlur = 3;
+              captionContext.fillStyle = "#fffaf2";
+              var captionFontSize = 54,
+                captionWords = FRAME_CAPTIONS[index].split(/\s+/),
+                captionMaxWidth = captionCanvas.width - 80;
+              function wrapCaption(fontSize) {
+                captionContext.font =
+                  'italic 400 ' +
+                  fontSize +
+                  'px "Instrument Serif", Georgia, serif';
+                var lines = [],
+                  line = "";
+                captionWords.forEach(function (word) {
+                  var candidate = line ? line + " " + word : word;
+                  if (
+                    line &&
+                    captionContext.measureText(candidate).width >
+                      captionMaxWidth
+                  ) {
+                    lines.push(line);
+                    line = word;
+                  } else {
+                    line = candidate;
+                  }
+                });
+                if (line) lines.push(line);
+                return lines;
+              }
+              var captionLines = wrapCaption(captionFontSize);
+              while (captionLines.length > 3 && captionFontSize > 32) {
+                captionFontSize -= 2;
+                captionLines = wrapCaption(captionFontSize);
+              }
+              captionContext.font =
+                'italic 400 ' +
+                captionFontSize +
+                'px "Instrument Serif", Georgia, serif';
+              var captionLineHeight =
+                  captionLines.length > 3 ? 32 : captionFontSize + 2,
+                captionStartY =
+                  145 -
+                  ((captionLines.length - 1) * captionLineHeight) / 2;
+              captionLines.forEach(function (line, lineIndex) {
+                captionContext.fillText(
+                  line,
+                  captionCanvas.width / 2,
+                  captionStartY + lineIndex * captionLineHeight,
+                  captionMaxWidth,
+                );
+              });
+              captionContext.shadowBlur = 0;
+              captionContext.font = '600 14px "Inter", sans-serif';
+              captionContext.fillStyle = "#f6d5a5";
+              captionContext.fillText("WITH LOVE", 256, 226);
+              frame.captionTexture = new THREE.CanvasTexture(captionCanvas);
+              frame.captionTexture.encoding = THREE.sRGBEncoding;
+              frame.captionTexture.magFilter = THREE.LinearFilter;
+              frame.captionTexture.minFilter = THREE.LinearMipmapLinearFilter;
+              frame.captionTexture.anisotropy = Math.min(
+                8,
+                renderer.capabilities.getMaxAnisotropy(),
+              );
+            }
             var group = new THREE.Group();
             group.userData.baseY = frame.y;
             group.userData.startY =
@@ -4689,6 +5211,28 @@
             photo.userData.frameIndex = index;
             group.add(photo);
             group.userData.photoMaterial = photoMaterial;
+            var captionWidth = Math.max(frame.w * 1.22, 1.46),
+              captionHeight = captionWidth * (256 / 512);
+            var caption = new THREE.Mesh(
+              new THREE.PlaneGeometry(captionWidth, captionHeight),
+              new THREE.MeshBasicMaterial({
+                map: frame.captionTexture,
+                side: THREE.DoubleSide,
+                fog: false,
+                transparent: true,
+                depthTest: true,
+                depthWrite: false,
+                toneMapped: false,
+                alphaTest: 0.05,
+              }),
+            );
+            caption.position.set(
+              0,
+              -(frame.h / 2 + captionHeight / 2 + 0.08),
+              0.03,
+            );
+            caption.renderOrder = 9;
+            group.add(caption);
             world.add(group);
             frameMeshes.push(photo);
             frameGroups.push(group);
@@ -4725,17 +5269,15 @@
             var petalY = petalPositions.getY(vertex);
             var across = clamp(Math.abs(petalX) / 0.28, 0, 1);
             var petalProgress = clamp((petalY + 0.48) / 1.05, 0, 1);
-            var petalBlend = clamp(
-              Math.pow(petalProgress, 1.15),
-              0,
-              1,
-            );
+            var petalBlend = clamp(Math.pow(petalProgress, 1.15), 0, 1);
             petalVertexColor
               .copy(petalBaseColor)
               .lerp(petalTipColor, petalBlend)
               .lerp(
                 petalRidgeColor,
-                Math.exp(-across * 5) * Math.sin(Math.PI * petalProgress) * 0.12,
+                Math.exp(-across * 5) *
+                  Math.sin(Math.PI * petalProgress) *
+                  0.12,
               );
             petalColors[vertex * 3] = petalVertexColor.r;
             petalColors[vertex * 3 + 1] = petalVertexColor.g;
@@ -4879,11 +5421,7 @@
                 x = petal.x + wave * 0.42,
                 z = petal.z + drift * 0.28,
                 surfaceY = waterSurfaceHeightAt(x, z, time);
-              transform.position.set(
-                x,
-                surfaceY + 0.008,
-                z,
-              );
+              transform.position.set(x, surfaceY + 0.008, z);
               transform.rotation.set(
                 -Math.PI / 2 + petal.tilt + wave * 0.025,
                 petal.yaw + wave * 0.18,
@@ -4901,7 +5439,8 @@
               if (i % 2 === 0) {
                 var ripplePulse = reduce
                   ? 1
-                  : 1 + 0.12 * (0.5 + 0.5 * Math.sin(time * 0.42 + petal.phase));
+                  : 1 +
+                    0.12 * (0.5 + 0.5 * Math.sin(time * 0.42 + petal.phase));
                 transform.position.y = surfaceY + 0.003;
                 transform.rotation.set(-Math.PI / 2, 0, 0);
                 transform.scale.setScalar(ripplePulse * (0.9 + (i % 3) * 0.08));
@@ -4924,7 +5463,7 @@
         var frameBaseGold = new THREE.Color(1, 1, 1),
           frameHoverGold = new THREE.Color(1.5, 1.3, 0.9),
           frameRailGlow = new THREE.Color();
-        function updatePhotoFrames(elapsed, time) {
+        function updatePhotoFrames(elapsed, time, now, updateSketch) {
           var cameraPosition = camera.position;
           FRAMES.forEach(function (frame, index) {
             var group = frameGroups[index],
@@ -4961,20 +5500,20 @@
               ? 1
               : 1 + Math.sin(time * 0.48 + group.userData.phase) * 0.012;
             group.scale.setScalar(
-              (0.35 + 0.65 * lift) *
+              (0.35 + 0.57 * lift) *
                 (1 + group.userData.hover * 0.08) *
                 breathe,
             );
-            if (frame.traceSketch && frame.photoTraceStart !== null) {
-              var traceElapsed = (performance.now() - frame.photoTraceStart) / 1000,
+            if (
+              frame.traceSketch &&
+              frame.photoTraceStart !== null &&
+              updateSketch
+            ) {
+              var traceElapsed = (now - frame.photoTraceStart) / 1000,
                 traceDuration = frame.traceStyle.duration,
                 revealDuration = frame.traceStyle.revealDuration,
                 revealProgress = easeInOut(
-                  clamp(
-                    (traceElapsed - traceDuration) / revealDuration,
-                    0,
-                    1,
-                  ),
+                  clamp((traceElapsed - traceDuration) / revealDuration, 0, 1),
                 );
               updatePhotoSketch(
                 frame,
@@ -4990,17 +5529,25 @@
             }
             group.updateMatrix();
 
-            var border = 0.055,
-              railTransforms = [
-                [0, frame.h / 2 + border / 2, frame.w + border * 2, border],
-                [0, -frame.h / 2 - border / 2, frame.w + border * 2, border],
-                [-frame.w / 2 - border / 2, 0, border, frame.h],
-                [frame.w / 2 + border / 2, 0, border, frame.h],
-              ];
-            railTransforms.forEach(function (rail, railIndex) {
-              frameTransform.position.set(rail[0], rail[1], 0.022);
+            var border = 0.055;
+            for (var railIndex = 0; railIndex < 4; railIndex++) {
+              var railX =
+                  railIndex < 2
+                    ? 0
+                    : railIndex === 2
+                      ? -frame.w / 2 - border / 2
+                      : frame.w / 2 + border / 2,
+                railY =
+                  railIndex === 0
+                    ? frame.h / 2 + border / 2
+                    : railIndex === 1
+                      ? -frame.h / 2 - border / 2
+                      : 0,
+                railWidth = railIndex < 2 ? frame.w + border * 2 : border,
+                railHeight = railIndex < 2 ? border : frame.h;
+              frameTransform.position.set(railX, railY, 0.022);
               frameTransform.rotation.set(0, 0, 0);
-              frameTransform.scale.set(rail[2], rail[3], 0.05);
+              frameTransform.scale.set(railWidth, railHeight, 0.05);
               frameTransform.updateMatrix();
               frameLocalMatrix.copy(frameTransform.matrix);
               frameWorldMatrix.multiplyMatrices(group.matrix, frameLocalMatrix);
@@ -5009,7 +5556,9 @@
                 : 0.035 +
                   (0.5 +
                     0.5 *
-                      Math.sin(time * 0.72 + group.userData.phase + railIndex)) *
+                      Math.sin(
+                        time * 0.72 + group.userData.phase + railIndex,
+                      )) *
                     0.065;
               frameRailGlow
                 .copy(frameBaseGold)
@@ -5019,7 +5568,7 @@
                 frameWorldMatrix,
               );
               frameRailMesh.setColorAt(index * 4 + railIndex, frameRailGlow);
-            });
+            }
             frameTransform.position.set(0, 0, -0.025);
             frameTransform.rotation.set(0, 0, 0);
             frameTransform.scale.set(frame.w + 0.5, frame.h + 0.5, 1);
@@ -5034,8 +5583,6 @@
           if (frameRailMesh.instanceColor)
             frameRailMesh.instanceColor.needsUpdate = true;
           frameShadowMesh.instanceMatrix.needsUpdate = true;
-          if (miniFlowerField) miniFlowerField.update(elapsed, time);
-          if (pondAccentFlowerField) pondAccentFlowerField.update(time);
         }
 
         function build(key, replay) {
@@ -5054,20 +5601,23 @@
           water.material.uniforms.uShine.value.setHex(pal.glow);
           app.style.background =
             "#" + ("000000" + pal.bg.toString(16)).slice(-6);
-          waterGlow.material.color.setHex(pal.glow);
+          waterGlow.material.color.setHex(0xa9c8ef);
           heartLilyOutline.material.color.setHex(pal.glow);
           pondLightHalo.material.color.setHex(pal.glow);
           pondLightReflection.material.color.setHex(pal.glow);
           pondPetalLightHalo.material.color.setHex(pal.glow);
-          pondLightLines.material.color.setHex(pal.glow).lerp(
-            new THREE.Color(0xffe2a3),
-            0.45,
-          );
-          core.color.setHex(pal.glow);
+          pondLightLines.material.color
+            .setHex(pal.glow)
+            .lerp(new THREE.Color(0xffe2a3), 0.45);
+          core.color.setHex(0xd7e6ff);
           fireflies.material.uniforms.uColor.value.setHex(pal.fire);
           buildStarted = performance.now();
           FRAMES.forEach(resetPhotoSketch);
           if (replay && !reduce) {
+            camera.zoom = 1;
+            bloomZoomTarget = 1;
+            bloomZoomReleaseStart = 0;
+            camera.updateProjectionMatrix();
             progress = 0;
             growing = true;
           } else {
@@ -5084,19 +5634,18 @@
         document
           .getElementById("growBtn")
           .addEventListener("click", function () {
-          var growButton = document.getElementById("growBtn");
-          growButton.classList.remove("grow-replay");
-          void growButton.offsetWidth;
-          growButton.classList.add("grow-replay");
-          window.setTimeout(function () {
+            var growButton = document.getElementById("growBtn");
             growButton.classList.remove("grow-replay");
-          }, 700);
-          build(current, true);
-        });
+            void growButton.offsetWidth;
+            growButton.classList.add("grow-replay");
+            window.setTimeout(function () {
+              growButton.classList.remove("grow-replay");
+            }, 700);
+            build(current, true);
+          });
 
         renderer.domElement.addEventListener("dblclick", function () {
           touched = true;
-          controls.autoRotate = false;
           resetView();
         });
 
@@ -5127,6 +5676,7 @@
           viewerPhotoFrame = document.getElementById("viewerPhotoFrame"),
           viewerTraceBackdrop = document.getElementById("viewerTraceBackdrop"),
           viewerTraceCanvas = document.getElementById("viewerTrace"),
+          viewerCaption = document.querySelector(".viewer-caption"),
           viewerTitle = document.getElementById("viewerTitle"),
           viewerCount = document.getElementById("viewerCount"),
           photoStage = document.getElementById("photoStage"),
@@ -5140,8 +5690,9 @@
           viewerTraceAnimationId = null,
           viewerTraceFadeTimer = null,
           viewerCloseTimer = null,
+          viewerEnterTimer = null,
           stagePointers = new Map();
-          var lastPinchDistance = 0;
+        var lastPinchDistance = 0;
         function sizeViewerLayers() {
           var width = viewerImage.clientWidth,
             height = viewerImage.clientHeight;
@@ -5156,6 +5707,16 @@
           viewerTraceCanvas.style.height = height + "px";
           setPhotoTransform();
         }
+        function positionViewerCaption() {
+          if (!viewer.classList.contains("open") || !viewerImage.naturalWidth)
+            return;
+          var imageBounds = viewerImage.getBoundingClientRect(),
+            viewerBounds = viewer.getBoundingClientRect();
+          viewerCaption.style.top =
+            imageBounds.bottom - viewerBounds.top + 12 + "px";
+        }
+        viewerImage.addEventListener("transitionend", positionViewerCaption);
+        viewerImage.addEventListener("animationend", positionViewerCaption);
         window.addEventListener("resize", sizeViewerLayers);
         if (window.ResizeObserver) {
           new ResizeObserver(sizeViewerLayers).observe(viewerImage);
@@ -5223,6 +5784,7 @@
             "px) scale(" +
             viewerScale +
             ")";
+          positionViewerCaption();
         }
         function stopViewerTrace() {
           if (viewerTraceAnimationId !== null) {
@@ -5239,15 +5801,33 @@
         }
         function createViewerTraceSource() {
           var tracePalettes = [
-              [[104, 225, 238], [190, 151, 246], [255, 164, 198]],
-              [[120, 232, 202], [250, 204, 137], [255, 157, 179]],
-              [[145, 188, 255], [218, 167, 255], [255, 191, 145]],
-              [[115, 221, 238], [145, 176, 255], [255, 176, 202]],
+              [
+                [104, 225, 238],
+                [190, 151, 246],
+                [255, 164, 198],
+              ],
+              [
+                [120, 232, 202],
+                [250, 204, 137],
+                [255, 157, 179],
+              ],
+              [
+                [145, 188, 255],
+                [218, 167, 255],
+                [255, 191, 145],
+              ],
+              [
+                [115, 221, 238],
+                [145, 176, 255],
+                [255, 176, 202],
+              ],
             ],
-            palette = tracePalettes[FRAMES[viewerIndex].traceStyle.tracePalette],
+            palette =
+              tracePalettes[FRAMES[viewerIndex].traceStyle.tracePalette],
             scale = Math.min(
               1,
-              720 / Math.max(viewerImage.naturalWidth, viewerImage.naturalHeight),
+              720 /
+                Math.max(viewerImage.naturalWidth, viewerImage.naturalHeight),
             ),
             width = Math.max(1, Math.round(viewerImage.naturalWidth * scale)),
             height = Math.max(1, Math.round(viewerImage.naturalHeight * scale)),
@@ -5264,7 +5844,11 @@
             gradientY = new Float32Array(width * height),
             traceCanvas = document.createElement("canvas");
           var hasTransparency = false;
-          for (var alphaIndex = 3; alphaIndex < source.length; alphaIndex += 4) {
+          for (
+            var alphaIndex = 3;
+            alphaIndex < source.length;
+            alphaIndex += 4
+          ) {
             if (source[alphaIndex] < 250) {
               hasTransparency = true;
               break;
@@ -5351,9 +5935,12 @@
             queue[tail++] = index;
           }
           if (hasTransparency) {
-            for (var pixelIndex = 0; pixelIndex < width * height; pixelIndex++) {
-              background[pixelIndex] =
-                source[pixelIndex * 4 + 3] < 16 ? 1 : 0;
+            for (
+              var pixelIndex = 0;
+              pixelIndex < width * height;
+              pixelIndex++
+            ) {
+              background[pixelIndex] = source[pixelIndex * 4 + 3] < 16 ? 1 : 0;
             }
           } else {
             for (var x = 0; x < width; x++) {
@@ -5379,7 +5966,8 @@
               if (currentX > 0) enqueueBackground(current - 1, current);
               if (currentX < width - 1) enqueueBackground(current + 1, current);
               if (currentY > 0) enqueueBackground(current - width, current);
-              if (currentY < height - 1) enqueueBackground(current + width, current);
+              if (currentY < height - 1)
+                enqueueBackground(current + width, current);
             }
           }
           for (var y = 1; y < height - 1; y++) {
@@ -5391,7 +5979,8 @@
               if (
                 background[pixelIndex] ||
                 (!hasTransparency && radiusSquared > 1)
-              ) continue;
+              )
+                continue;
               var boundaryFade = hasTransparency
                   ? 1
                   : clamp((1 - Math.sqrt(radiusSquared)) * 8, 0, 1),
@@ -5418,22 +6007,26 @@
               ) {
                 continue;
               }
-              var strength = clamp(
-                (gradients[pixelIndex] - (hasTransparency ? 14 : 12)) / 100,
-                0,
-                1,
-              ) * boundaryFade;
+              var strength =
+                clamp(
+                  (gradients[pixelIndex] - (hasTransparency ? 14 : 12)) / 100,
+                  0,
+                  1,
+                ) * boundaryFade;
               if (strength < (hasTransparency ? 0.022 : 0.018)) continue;
               var index = (y * width + x) * 4;
               var colorPhase =
-                (((x / width) * 0.8 + (y / height) * 0.35) % 1) * 3,
-              colorStop = Math.floor(colorPhase),
-              colorBlend = colorPhase - colorStop,
-              colorFrom = palette[colorStop],
-              colorTo = palette[(colorStop + 1) % palette.length],
-              accentRed = colorFrom[0] + (colorTo[0] - colorFrom[0]) * colorBlend,
-              accentGreen = colorFrom[1] + (colorTo[1] - colorFrom[1]) * colorBlend,
-              accentBlue = colorFrom[2] + (colorTo[2] - colorFrom[2]) * colorBlend;
+                  (((x / width) * 0.8 + (y / height) * 0.35) % 1) * 3,
+                colorStop = Math.floor(colorPhase),
+                colorBlend = colorPhase - colorStop,
+                colorFrom = palette[colorStop],
+                colorTo = palette[(colorStop + 1) % palette.length],
+                accentRed =
+                  colorFrom[0] + (colorTo[0] - colorFrom[0]) * colorBlend,
+                accentGreen =
+                  colorFrom[1] + (colorTo[1] - colorFrom[1]) * colorBlend,
+                accentBlue =
+                  colorFrom[2] + (colorTo[2] - colorFrom[2]) * colorBlend;
               output[index] = accentRed * 0.68 + 255 * 0.32;
               output[index + 1] = accentGreen * 0.68 + 255 * 0.32;
               output[index + 2] = accentBlue * 0.68 + 255 * 0.32;
@@ -5481,7 +6074,11 @@
             maskContext.lineJoin = "round";
             maskContext.lineWidth = lineWidth;
             maskContext.strokeStyle = "#fff";
-            for (var strokeIndex = 0; strokeIndex < strokeCount; strokeIndex++) {
+            for (
+              var strokeIndex = 0;
+              strokeIndex < strokeCount;
+              strokeIndex++
+            ) {
               var strokeProgress = clamp(
                 progress * strokeCount - strokeIndex,
                 0,
@@ -5497,14 +6094,11 @@
                 strokeIndex === 0
                   ? 0.5
                   : 0.5 +
-                    side *
-                      (ring / Math.ceil((strokeCount - 1) / 2)) *
-                      0.46;
+                    side * (ring / Math.ceil((strokeCount - 1) / 2)) * 0.46;
               var travel = vertical ? height : width;
               for (var direction = -1; direction <= 1; direction += 2) {
                 var end =
-                    travel * 0.5 +
-                    direction * travel * 0.5 * strokeProgress,
+                    travel * 0.5 + direction * travel * 0.5 * strokeProgress,
                   steps = Math.max(
                     2,
                     Math.ceil(Math.abs(end - travel * 0.5) / 18),
@@ -5512,13 +6106,12 @@
                 maskContext.beginPath();
                 for (var step = 0; step <= steps; step++) {
                   var along =
-                    travel * 0.5 +
-                    (end - travel * 0.5) * (step / steps);
+                    travel * 0.5 + (end - travel * 0.5) * (step / steps);
                   var bend =
                     Math.sin((along / travel) * Math.PI * 2.4 + strokeIndex) *
                       shortSide *
                       0.012 +
-                    ((along / travel - 0.5) * shortSide * skew);
+                    (along / travel - 0.5) * shortSide * skew;
                   var x = vertical ? distance * width + bend : along;
                   var y = vertical ? along : distance * height + bend;
                   if (step === 0) maskContext.moveTo(x, y);
@@ -5550,23 +6143,18 @@
                 strokeIndex === 0
                   ? 0.5
                   : 0.5 +
-                    side *
-                      (ring / Math.ceil((strokeCount - 1) / 2)) *
-                      0.46;
+                    side * (ring / Math.ceil((strokeCount - 1) / 2)) * 0.46;
             if (strokeCount % 2 === 0 && strokeIndex === strokeCount - 1) {
               side = 1;
               distance =
-                0.5 +
-                side *
-                  (ring / Math.ceil((strokeCount - 1) / 2)) *
-                  0.46;
+                0.5 + side * (ring / Math.ceil((strokeCount - 1) / 2)) * 0.46;
             }
             function pointAt(position) {
               var bend =
                 Math.sin((position / travel) * Math.PI * 2.4 + strokeIndex) *
                   shortSide *
                   0.012 +
-                ((position / travel - 0.5) * shortSide * skew);
+                (position / travel - 0.5) * shortSide * skew;
               return vertical
                 ? { x: distance * width + bend, y: position }
                 : { x: position, y: distance * height + bend };
@@ -5585,8 +6173,7 @@
             ];
             for (var direction = -1; direction <= 1; direction += 2) {
               var along =
-                  travel * 0.5 +
-                  direction * travel * 0.5 * strokeProgress,
+                  travel * 0.5 + direction * travel * 0.5 * strokeProgress,
                 trailStart =
                   travel * 0.5 +
                   direction *
@@ -5700,7 +6287,13 @@
                 context.shadowColor = context.fillStyle;
                 context.shadowBlur = shortSide * 0.035;
                 context.beginPath();
-                context.arc(x, y, Math.max(1.5, shortSide * 0.006), 0, Math.PI * 2);
+                context.arc(
+                  x,
+                  y,
+                  Math.max(1.5, shortSide * 0.006),
+                  0,
+                  Math.PI * 2,
+                );
                 context.fill();
               }
             } else if (mode === 2) {
@@ -5739,7 +6332,13 @@
                 context.shadowColor = context.fillStyle;
                 context.shadowBlur = shortSide * 0.04;
                 context.beginPath();
-                context.arc(x, y, Math.max(1.5, shortSide * 0.007), 0, Math.PI * 2);
+                context.arc(
+                  x,
+                  y,
+                  Math.max(1.5, shortSide * 0.007),
+                  0,
+                  Math.PI * 2,
+                );
                 context.fill();
               }
             }
@@ -5821,8 +6420,22 @@
         }
         function revealViewerImage() {
           requestAnimationFrame(function () {
+            viewerImage.classList.remove(
+              "viewer-enter-next",
+              "viewer-enter-prev",
+            );
+            viewerPhotoMatte.classList.remove(
+              "viewer-enter-next",
+              "viewer-enter-prev",
+            );
+            viewerPhotoFrame.classList.remove(
+              "viewer-enter-next",
+              "viewer-enter-prev",
+            );
             sizeViewerLayers();
+            void viewerImage.offsetWidth;
             viewerImage.classList.add("visible");
+            positionViewerCaption();
             if (!reduce) {
               var enterClass =
                 viewerDirection === -1
@@ -5831,7 +6444,10 @@
               viewerImage.classList.add(enterClass);
               viewerPhotoMatte.classList.add(enterClass);
               viewerPhotoFrame.classList.add(enterClass);
-              window.setTimeout(function () {
+              if (viewerEnterTimer !== null) {
+                clearTimeout(viewerEnterTimer);
+              }
+              viewerEnterTimer = window.setTimeout(function () {
                 viewerImage.classList.remove(
                   "viewer-enter-next",
                   "viewer-enter-prev",
@@ -5844,10 +6460,12 @@
                   "viewer-enter-next",
                   "viewer-enter-prev",
                 );
+                viewerEnterTimer = null;
+                positionViewerCaption();
               }, 650);
             }
             if (viewerIndex >= 0) {
-             startViewerTrace();
+              startViewerTrace();
             }
           });
         }
@@ -5862,12 +6480,15 @@
         function openPhotoViewer(index, direction) {
           if (!FRAMES[index] || !FRAMES[index].customPhoto) return;
           stopViewerTrace();
+          if (viewerEnterTimer !== null) {
+            clearTimeout(viewerEnterTimer);
+            viewerEnterTimer = null;
+          }
           if (viewerCloseTimer !== null) {
             clearTimeout(viewerCloseTimer);
             viewerCloseTimer = null;
           }
-          viewerDirection =
-            direction === -1 || direction === 1 ? direction : 1;
+          viewerDirection = direction === -1 || direction === 1 ? direction : 1;
           viewerIndex = index;
           var frame = FRAMES[index];
           var custom = customPhotoIndices(),
@@ -5878,21 +6499,24 @@
             "viewer-enter-next",
             "viewer-enter-prev",
           );
+          viewerPhotoMatte.classList.remove(
+            "viewer-enter-next",
+            "viewer-enter-prev",
+          );
+          viewerPhotoFrame.classList.remove(
+            "viewer-enter-next",
+            "viewer-enter-prev",
+          );
           viewer.classList.remove("closing");
-          if (direction === 1 || direction === -1) {
-            viewerImage.classList.add(
-              direction === 1 ? "viewer-enter-next" : "viewer-enter-prev",
-            );
-          }
           photoStage.classList.add("loading");
           viewerImage.src = photoUrl;
           if (viewerImage.complete && viewerImage.naturalWidth) {
             revealViewerImage();
           }
-          viewerImage.alt = frame.title || "Pond photo";
-          viewerTitle.textContent = frame.title || "Pond photo";
-          viewerCount.textContent =
-            (position + 1) + " / " + custom.length;
+          viewerImage.alt = frame.caption || frame.title || "Pond photo";
+          viewerTitle.textContent =
+            frame.caption || frame.title || "Pond photo";
+          viewerCount.textContent = position + 1 + " / " + custom.length;
           resetPhotoTransform();
           viewerPrev.disabled = custom.length < 2;
           viewerNext.disabled = custom.length < 2;
@@ -5902,6 +6526,10 @@
         function closePhotoViewer() {
           stopViewerTrace();
           if (!viewer.classList.contains("open")) return;
+          if (viewerEnterTimer !== null) {
+            clearTimeout(viewerEnterTimer);
+            viewerEnterTimer = null;
+          }
           viewer.classList.add("closing");
           viewerCloseTimer = window.setTimeout(function () {
             viewer.classList.remove("closing", "open");
@@ -5918,25 +6546,34 @@
           position = (position + direction + custom.length) % custom.length;
           openPhotoViewer(custom[position], direction);
         }
-        document.getElementById("viewerClose").addEventListener("click", closePhotoViewer);
+        document
+          .getElementById("viewerClose")
+          .addEventListener("click", closePhotoViewer);
         viewerPrev.addEventListener("click", function () {
           navigatePhoto(-1);
         });
         viewerNext.addEventListener("click", function () {
           navigatePhoto(1);
         });
-        photoStage.addEventListener("wheel", function (event) {
-          event.preventDefault();
-          var factor = event.deltaY < 0 ? 1.12 : 0.89;
-          viewerScale = Math.max(1, Math.min(5, viewerScale * factor));
-          if (viewerScale === 1) {
-            viewerX = 0;
-            viewerY = 0;
-          }
-          setPhotoTransform();
-        }, { passive: false });
+        photoStage.addEventListener(
+          "wheel",
+          function (event) {
+            event.preventDefault();
+            var factor = event.deltaY < 0 ? 1.12 : 0.89;
+            viewerScale = Math.max(1, Math.min(5, viewerScale * factor));
+            if (viewerScale === 1) {
+              viewerX = 0;
+              viewerY = 0;
+            }
+            setPhotoTransform();
+          },
+          { passive: false },
+        );
         photoStage.addEventListener("pointerdown", function (event) {
-          stagePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+          stagePointers.set(event.pointerId, {
+            x: event.clientX,
+            y: event.clientY,
+          });
           photoStage.setPointerCapture(event.pointerId);
           photoStage.classList.add("dragging");
           if (stagePointers.size === 2) {
@@ -5952,7 +6589,10 @@
         photoStage.addEventListener("pointermove", function (event) {
           if (!stagePointers.has(event.pointerId)) return;
           var previous = stagePointers.get(event.pointerId);
-          stagePointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+          stagePointers.set(event.pointerId, {
+            x: event.clientX,
+            y: event.clientY,
+          });
           if (stagePointers.size === 2) {
             var points = Array.from(stagePointers.values());
             var distance = Math.hypot(
@@ -6059,6 +6699,9 @@
           var w = app.clientWidth,
             h = app.clientHeight;
           if (!w || !h) return;
+          var pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+          if (renderer.getPixelRatio() !== pixelRatio)
+            renderer.setPixelRatio(pixelRatio);
           var isLandscape = w > h,
             orientationChanged =
               lastViewportLandscape !== null &&
@@ -6069,7 +6712,12 @@
           camera.updateProjectionMatrix();
           fireflies.material.uniforms.uScale.value =
             5 * renderer.getPixelRatio() * (h / 800);
-          if (!touched || orientationChanged) resetView();
+          if (!touched) resetView();
+          else if (orientationChanged)
+            controls.maxDistance = Math.max(
+              controls.maxDistance,
+              fitDist(camera.aspect) * 1.7,
+            );
         }
         if (window.ResizeObserver) new ResizeObserver(onResize).observe(app);
         else window.addEventListener("resize", onResize);
@@ -6079,7 +6727,7 @@
         var padVeinPositions = padVeinGeometry.attributes.position;
         var padFineVeinPositions = padFineVeinGeometry.attributes.position;
         function updateSky(time) {
-          var az = 0.12 + 0.08 * Math.sin(time * 0.011);
+          var az = 0.34 + 0.06 * Math.sin(time * 0.011);
           var el = 0.1 + 0.02 * Math.sin(time * 0.007);
           moonSkyDirection.set(
             Math.sin(az) * Math.cos(el),
@@ -6169,7 +6817,8 @@
         var last = performance.now(),
           time = 0,
           animationFrameId = null,
-          lastFlowerUpdate = 0;
+          lastFlowerUpdate = 0,
+          lastPhotoSketchUpdate = 0;
         function tick(now) {
           animationFrameId = null;
           if (document.hidden) return;
@@ -6178,7 +6827,34 @@
           time += reduce ? dt * 0.3 : dt;
           if (growing) {
             progress = Math.min(1, progress + dt / centerFlowerDuration);
-            if (progress >= 1) growing = false;
+            var zoomEase = easeInOut(progress);
+            var zoomStrength = clamp(1.5 / camera.aspect, 1, 2.8);
+            bloomZoomTarget = 1 + 0.72 * zoomStrength;
+            camera.zoom = 1 + (bloomZoomTarget - 1) * zoomEase;
+            camera.updateProjectionMatrix();
+            if (progress >= 1) {
+              growing = false;
+              bloomZoomReleaseStart = now + 2200;
+            }
+          } else if (bloomZoomReleaseStart) {
+            if (now < bloomZoomReleaseStart) {
+              camera.zoom = bloomZoomTarget;
+            } else {
+              var zoomReleaseProgress = clamp(
+                (now - bloomZoomReleaseStart) / 2000,
+                0,
+                1,
+              );
+              camera.zoom =
+                1 +
+                (bloomZoomTarget - 1) * (1 - easeInOut(zoomReleaseProgress));
+              if (zoomReleaseProgress >= 1) {
+                camera.zoom = 1;
+                bloomZoomTarget = 1;
+                bloomZoomReleaseStart = 0;
+              }
+            }
+            camera.updateProjectionMatrix();
           }
           fireflies.material.uniforms.uTime.value = time;
           starMaterial.uniforms.uTime.value = time;
@@ -6187,14 +6863,35 @@
             (time * Math.PI * 2) / 86400,
           );
           water.material.uniforms.uTime.value = time;
-          waterGlow.material.opacity = 0.17 + 0.03 * Math.sin(time * 0.9);
+          var mobileLightBoost = clamp((0.9 - camera.aspect) / 0.45, 0, 1);
+          var bloomLight = easeInOut(progress);
+          var moonReflection =
+            1.2 * bloomLight + 0.65 * mobileLightBoost;
+          water.material.uniforms.uBloomLight.value = moonReflection;
+          water.material.uniforms.uMobileFill.value =
+            1.35 * mobileLightBoost + 0.25 * bloomLight;
+          moonlight.intensity =
+            1.1 + 0.65 * bloomLight + 0.8 * mobileLightBoost;
+          fillLight.intensity =
+            0.2 + 0.35 * bloomLight + 0.9 * mobileLightBoost;
+          waterGlow.material.opacity =
+            0.2 +
+            0.03 * Math.sin(time * 0.9) +
+            0.15 * bloomLight +
+            0.22 * mobileLightBoost;
           heartLilyGroup.position.y =
             0.055 + (reduce ? 0 : Math.sin(time * 0.42) * 0.008);
-          heartLilyGroup.rotation.z =
-            reduce ? 0 : Math.sin(time * 0.24) * 0.018;
-          heartLilyOutline.material.opacity =
-            reduce ? 0.09 : 0.075 + 0.035 * (0.5 + 0.5 * Math.sin(time * 0.36));
-          core.intensity = 2.4 + 0.3 * Math.sin(time * 0.9);
+          heartLilyGroup.rotation.z = reduce
+            ? 0
+            : Math.sin(time * 0.24) * 0.018;
+          heartLilyOutline.material.opacity = reduce
+            ? 0.09
+            : 0.075 + 0.035 * (0.5 + 0.5 * Math.sin(time * 0.36));
+          core.intensity =
+            2.4 +
+            0.3 * Math.sin(time * 0.9) +
+            1.1 * bloomLight +
+            0.9 * mobileLightBoost;
           for (
             var pondLightIndex = 0;
             pondLightIndex < pondLightPositions.length;
@@ -6206,10 +6903,7 @@
               : 0.58 +
                 0.42 *
                   (0.5 +
-                    0.5 *
-                      Math.sin(
-                        time * pondLight.speed + pondLight.phase,
-                      ));
+                    0.5 * Math.sin(time * pondLight.speed + pondLight.phase));
             var pondHover = reduce
               ? 0
               : Math.sin(time * 0.38 + pondLight.phase) * 0.012;
@@ -6219,23 +6913,15 @@
               pondLight.z,
             );
             pondLightTransform.rotation.set(0, 0, 0);
-            pondLightTransform.scale.setScalar(
-              0.78 + pondPulse * 0.45,
-            );
+            pondLightTransform.scale.setScalar(0.78 + pondPulse * 0.45);
             pondLightTransform.updateMatrix();
             pondLightCore.setMatrixAt(
               pondLightIndex,
               pondLightTransform.matrix,
             );
-            pondLightTransform.position.set(
-              pondLight.x,
-              0.038,
-              pondLight.z,
-            );
+            pondLightTransform.position.set(pondLight.x, 0.038, pondLight.z);
             pondLightTransform.rotation.set(-Math.PI / 2, 0, 0);
-            pondLightTransform.scale.setScalar(
-              1.3 + pondPulse * 0.5,
-            );
+            pondLightTransform.scale.setScalar(1.3 + pondPulse * 0.5);
             pondLightTransform.updateMatrix();
             pondLightHalo.setMatrixAt(
               pondLightIndex,
@@ -6261,14 +6947,15 @@
           pondLightCore.instanceMatrix.needsUpdate = true;
           pondLightHalo.instanceMatrix.needsUpdate = true;
           pondLightReflection.instanceMatrix.needsUpdate = true;
-          pondLightLines.material.opacity =
-            reduce ? 0.18 : 0.2 + 0.08 * (0.5 + 0.5 * Math.sin(time * 0.34));
-          pondConstellationLines.material.opacity =
-            reduce
-              ? 0.14
-              : 0.14 + 0.12 * (0.5 + 0.5 * Math.sin(time * 0.26));
-          pondConstellationLines.rotation.y =
-            reduce ? 0 : Math.sin(time * 0.035) * 0.018;
+          pondLightLines.material.opacity = reduce
+            ? 0.18
+            : 0.2 + 0.08 * (0.5 + 0.5 * Math.sin(time * 0.34));
+          pondConstellationLines.material.opacity = reduce
+            ? 0.14
+            : 0.14 + 0.12 * (0.5 + 0.5 * Math.sin(time * 0.26));
+          pondConstellationLines.rotation.y = reduce
+            ? 0
+            : Math.sin(time * 0.035) * 0.018;
           for (
             var petalLightIndex = 0;
             petalLightIndex < pondPetalPositions.length;
@@ -6280,10 +6967,7 @@
               : 0.55 +
                 0.45 *
                   (0.5 +
-                    0.5 *
-                      Math.sin(
-                        time * petalLight.speed + petalLight.phase,
-                      ));
+                    0.5 * Math.sin(time * petalLight.speed + petalLight.phase));
             var petalLift = reduce
               ? 0
               : Math.sin(time * 0.31 + petalLight.phase) * 0.018;
@@ -6293,23 +6977,15 @@
               petalLight.z,
             );
             pondLightTransform.rotation.set(0, 0, 0);
-            pondLightTransform.scale.setScalar(
-              0.72 + petalPulse * 0.42,
-            );
+            pondLightTransform.scale.setScalar(0.72 + petalPulse * 0.42);
             pondLightTransform.updateMatrix();
             pondPetalLightCore.setMatrixAt(
               petalLightIndex,
               pondLightTransform.matrix,
             );
-            pondLightTransform.position.set(
-              petalLight.x,
-              0.042,
-              petalLight.z,
-            );
+            pondLightTransform.position.set(petalLight.x, 0.042, petalLight.z);
             pondLightTransform.rotation.set(-Math.PI / 2, 0, 0);
-            pondLightTransform.scale.setScalar(
-              0.82 + petalPulse * 0.38,
-            );
+            pondLightTransform.scale.setScalar(0.82 + petalPulse * 0.38);
             pondLightTransform.updateMatrix();
             pondPetalLightHalo.setMatrixAt(
               petalLightIndex,
@@ -6327,6 +7003,9 @@
             ) {
               flowers[flowerIndex].update(progress, time);
             }
+            if (miniFlowerField)
+              miniFlowerField.update((now - buildStarted) / 1000, time);
+            if (pondAccentFlowerField) pondAccentFlowerField.update(time);
             lastFlowerUpdate = now;
           }
           for (
@@ -6343,8 +7022,19 @@
               ? 0
               : Math.cos(sway * 0.8) * 0.016;
           }
+          controls.autoRotateSpeed =
+            growing && controls.autoRotate
+              ? (flowerRevealAngularSpeed * 3600 * dt) / (2 * Math.PI)
+              : baseAutoRotateSpeed;
           controls.update();
-          updatePhotoFrames((now - buildStarted) / 1000, time);
+          var updateSketch = now - lastPhotoSketchUpdate >= 1000 / 30;
+          updatePhotoFrames(
+            (now - buildStarted) / 1000,
+            time,
+            now,
+            updateSketch,
+          );
+          if (updateSketch) lastPhotoSketchUpdate = now;
           updateSky(time);
           water.material.uniforms.uCameraPosition.value.copy(camera.position);
           water.material.uniforms.uMoonDirection.value.copy(moonSkyDirection);
@@ -6361,6 +7051,9 @@
             return;
           }
           last = performance.now();
+          if (touched && !reduce && !controls.autoRotate) {
+            resumeAutoRotateAfterIdle();
+          }
           if (animationFrameId === null)
             animationFrameId = requestAnimationFrame(tick);
         });
